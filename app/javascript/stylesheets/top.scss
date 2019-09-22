@@ -1,3 +1,24 @@
+ul,li {
+  list-style: none;
+}
+button,
+input[type="submit"] {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border: none;
+    outline: none;
+  }
+
+.btn_small{
+  padding: 8px 16px;
+  background-color: #f3f3f4;
+  font-size: 12px;
+  font-weight: bold;
+  border-radius: 4px;
+}
+
+
 .topPage {
   min-height: 93vh;
   padding-top: 30px;
@@ -60,3 +81,28 @@
   }
 }
 
+.cardWrapper{
+  .head{
+    display: flex;
+    .btn_start{
+      input{
+        margin:0 8px 0 0 ;
+      }
+    }
+  }
+  .time_btn{
+    display: flex;
+    li{
+    }
+  }
+  .time_log{
+    display: flex;
+      p{
+        margin:0 8px 0 0 ;
+      }
+      span{
+        padding: 0px 8px;
+        margin:0 8px 0 0 ;
+      }
+  }
+}

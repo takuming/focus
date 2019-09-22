@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  end_time: 
+  total_time: 
+  upadate: MyString
+  new: MyString
+  destroy: MyString
+
+two:
+  end_time: 
+  total_time: 
+  upadate: MyString
+  new: MyString
+  destroy: MyString
