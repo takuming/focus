@@ -3,7 +3,7 @@ class CreateLists < ActiveRecord::Migration[6.0]
     create_table :lists do |t|
       t.string      :title, null: false, limit: 255
       t.text        :memo, limit: 1000
-      t.references  :list, null: false
+      t.references  :user, null: false
 
       t.timestamps
     end
