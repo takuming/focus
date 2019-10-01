@@ -1,6 +1,7 @@
 <div class="topPage">
   <div class="listWrapper">
-    <% @list.each do |list| %>
+   <% @list.each do |list| %>
+    <% if list.where(:date => Date.today) %>
       <div class="list">
         <div class="list_header">
           <h2 class="list_header_title">
@@ -62,6 +63,7 @@
         </div>
 
       </div>
+      <% end %>
     <% end %>
   </div>
 </div>
