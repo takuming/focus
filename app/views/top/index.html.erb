@@ -1,67 +1,77 @@
 <div class="topPage">
   <div class="listWrapper">
-    <% @list.each do |list| %>
-      <div class="list">
-        <div class="list_header">
-          <h2 class="list_header_title">
-              <%= list.title %>
-          </h2>
-          <div class="list_header_action">
-              <%= link_to content_tag(:i, '削除', class: 'fas fa-trash'), list, method: :delete, data: { confirm: "#{list.title}を削除して大丈夫ですか?" } %>
-              <%= link_to(content_tag(:i, '編集', class: 'fas fa-pen'), edit_list_path(list)) %>
+  <% @list.each do |list| %>
+    <%idx = 0%>
+    <%7.times do%>
+      <%yesterday = idx += 1%>
+      <%today = Date.today - yesterday%>
+      <% if @list.where(:created_at == 2019-10-1) %>
+        <div class="list">
+          <div class="list_header">
+            <h2 class="list_header_title">
+                <%= list.title %>
+            </h2>
+            <div class="list_header_action">
+                <%= link_to content_tag(:i, '削除', class: 'fas fa-trash'), list, method: :delete, data: { confirm: "#{list.title}を削除して大丈夫ですか?" } %>
+                <%= link_to(content_tag(:i, '編集', class: 'fas fa-pen'), edit_list_path(list)) %>
+            </div>
           </div>
-        </div>
 
-        <div class="cardWrapper">
-        <% list.cards.each do |card|%>
-            <div class="card">
-              <div class="head"> 
-                    <h3 class="card_title">
-                      <%= card.title %>
-                    </h3>
-                    <li class="btn_start">
-                            <%= form_tag("/cards/#{card.id}/log/start_time") do %>
-                              　<input type="hidden" name="card_id">
-                                <input type="submit" value="スタート" class="btn_small">
+          <div class="cardWrapper">
+          <% list.cards.each do |card|%>
+              <div class="card">
+                <div class="head"> 
+                      <h3 class="card_title">
+                        <%= card.title %>
+                      </h3>
+                      <li class="btn_start">
+                              <%= form_tag("/cards/#{card.id}/log/start_time") do %>
+                                　<input type="hidden" name="card_id">
+                                  <input type="submit" value="スタート" class="btn_small">
+                              <% end %>
+                      </li>
+                      <li class="btn_start">
+                              <%= form_tag("/cards/#{card.id}/log/end_time") do %>
+                                  <input type="hidden" name="card_id">
+                                  <input type="submit" value="ストップ" class="btn_small">
+                              <% end %>
+                      </li>
+                  </div>
+
+                  <div class="section_log">
+                    <% card.logs.each do |log|%>
+                        <div class='time_log'>
+                            <% @t1 = log.created_at.strftime("%H:%M:%S") %>
+                            <% @t2 = log.end_time %>
+                            <p>計測 → </p><p>開始: <%= @t1 %></p><span>-</span><p>終了: <%= @t2 %></p>
+                            <% if @t1.present? && @t2.present? &&  %>
+                                  <p>合計: <%= log.total_time%> </p>
+                            <% else %>
+                                  <p>何もないよ</p>
                             <% end %>
-                    </li>
-                    <li class="btn_start">
-                            <%= form_tag("/cards/#{card.id}/log/end_time") do %>
-                                <input type="hidden" name="card_id">
-                                <input type="submit" value="ストップ" class="btn_small">
-                            <% end %>
-                    </li>
+                        </div>
+                    <%end%>
                 </div>
 
-                <div class="section_log">
-                  <% card.logs.each do |log|%>
-                      <div class='time_log'>
-                          <% @t1 = log.created_at.strftime("%H:%M:%S") %>
-                          <% @t2 = log.end_time %>
-                          <p>計測 → </p><p>開始: <%= @t1 %></p><span>-</span><p>終了: <%= @t2 %></p>
-                          <% if @t1.present? && @t2.present? &&  %>
-                                <p>合計: <%= log.total_time%> </p>
-                          <% else %>
-                                <p>何もないよ</p>
-                          <% end %>
-                      </div>
-                  <%end%>
+                <div class="cardContents_btnArea">
+                  <%= link_to '編集する', edit_list_card_path(card.list, card), class: "edit_btn" %>
+                  <%= link_to '削除をする', list_card_path(card.list, card), class: "text-danger delete_btn", method: :delete, data: { confirm: "このカードを削除して大丈夫ですか?" } %>
+                </div>
               </div>
+          <%end%> <!-- end:list.card -->
 
-              <div class="cardContents_btnArea">
-                <%= link_to '編集する', edit_list_card_path(card.list, card), class: "edit_btn" %>
-                <%= link_to '削除をする', list_card_path(card.list, card), class: "text-danger delete_btn", method: :delete, data: { confirm: "このカードを削除して大丈夫ですか?" } %>
-              </div>
+            <div class="addCard">
+              <i class="far fa-plus-square"></i>
+              <%= link_to "さらにカードを追加", new_list_card_path(list), class: "addCard_link" %>
             </div>
-        <%end%>
-
-          <div class="addCard">
-            <i class="far fa-plus-square"></i>
-            <%= link_to "さらにカードを追加", new_list_card_path(list), class: "addCard_link" %>
           </div>
+
         </div>
 
-      </div>
-    <% end %>
+        <%else%>
+          <p>何もないよ</p>
+      <% end %><!-- if:@list.where -->
+    <% end %><!-- 7.times -->
+  <% end %>
   </div>
 </div>

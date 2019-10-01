@@ -6562,3 +6562,2779 @@ ActionView::Template::Error (undefined method `title' for #<Array:0x00007f9e20bc
 app/views/top/index.html.erb:7
 app/views/top/index.html.erb:3:in `each'
 app/views/top/index.html.erb:3
+Started GET "/" for ::1 at 2019-09-28 15:17:05 +0900
+  [1m[35m (2.2ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.5ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by TopController#index as HTML
+  [1m[36mUser Load (0.7ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? ORDER BY "users"."id" ASC LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  Rendering top/index.html.erb within layouts/application
+  Rendered top/index.html.erb within layouts/application (Duration: 7.9ms | Allocations: 3592)
+Completed 500 Internal Server Error in 56ms (ActiveRecord: 1.7ms | Allocations: 19045)
+
+
+Started GET "/" for ::1 at 2019-09-28 15:17:18 +0900
+Processing by TopController#index as HTML
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? ORDER BY "users"."id" ASC LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  Rendering top/index.html.erb within layouts/application
+  Rendered top/index.html.erb within layouts/application (Duration: 1.4ms | Allocations: 765)
+Completed 500 Internal Server Error in 5ms (ActiveRecord: 0.1ms | Allocations: 2820)
+
+
+  
+ActionView::SyntaxErrorInTemplate (Encountered a syntax error while rendering template: check <div class="topPage">
+  <div class="listWrapper">
+    <% Date.parse('2019-01-01')..Date.parse('2019-12-31').@list{|d| d.day == 6}.each do |list| %>
+    <% if list.exists?(:date => Date.today - d) %>
+      <div class="list">
+        <div class="list_header">
+          <h2 class="list_header_title">
+              <%= list.title %>
+          </h2>
+          <div class="list_header_action">
+              <%= link_to content_tag(:i, '削除', class: 'fas fa-trash'), list, method: :delete, data: { confirm: "#{list.title}を削除して大丈夫ですか?" } %>
+              <%= link_to(content_tag(:i, '編集', class: 'fas fa-pen'), edit_list_path(list)) %>
+          </div>
+        </div>
+
+        <div class="cardWrapper">
+        <% list.cards.each do |card|%>
+            <div class="card">
+              <div class="head"> 
+                    <h3 class="card_title">
+                      <%= card.title %>
+                    </h3>
+                    <li class="btn_start">
+                            <%= form_tag("/cards/#{card.id}/log/start_time") do %>
+                              　<input type="hidden" name="card_id">
+                                <input type="submit" value="スタート" class="btn_small">
+                            <% end %>
+                    </li>
+                    <li class="btn_start">
+                            <%= form_tag("/cards/#{card.id}/log/end_time") do %>
+                                <input type="hidden" name="card_id">
+                                <input type="submit" value="ストップ" class="btn_small">
+                            <% end %>
+                    </li>
+                </div>
+
+                <div class="section_log">
+                  <% card.logs.each do |log|%>
+                      <div class='time_log'>
+                          <% @t1 = log.created_at.strftime("%H:%M:%S") %>
+                          <% @t2 = log.end_time %>
+                          <p>計測 → </p><p>開始: <%= @t1 %></p><span>-</span><p>終了: <%= @t2 %></p>
+                          <% if @t1.present? && @t2.present? &&  %>
+                                <p>合計: <%= log.total_time%> </p>
+                          <% else %>
+                                <p>何もないよ</p>
+                          <% end %>
+                      </div>
+                  <%end%>
+              </div>
+
+              <div class="cardContents_btnArea">
+                <%= link_to '編集する', edit_list_card_path(card.list, card), class: "edit_btn" %>
+                <%= link_to '削除をする', list_card_path(card.list, card), class: "text-danger delete_btn", method: :delete, data: { confirm: "このカードを削除して大丈夫ですか?" } %>
+              </div>
+            </div>
+        <%end%>
+
+          <div class="addCard">
+            <i class="far fa-plus-square"></i>
+            <%= link_to "さらにカードを追加", new_list_card_path(list), class: "addCard_link" %>
+          </div>
+        </div>
+
+      </div>
+      <% end %> <%#-- if文のend --%>
+    <% end %>
+  </div>
+</div>
+
+):
+1:    <div class="topPage">
+2:      <div class="listWrapper">
+3:        <% Date.parse('2019-01-01')..Date.parse('2019-12-31').@list{|d| d.day == 6}.each do |list| %>
+4:        <% if list.exists?(:date => Date.today - d) %>
+5:          <div class="list">
+6:            <div class="list_header">
+7:              <h2 class="list_header_title">
+8:                  <%= list.title %>
+9:              </h2>
+10:              <div class="list_header_action">
+11:                  <%= link_to content_tag(:i, '削除', class: 'fas fa-trash'), list, method: :delete, data: { confirm: "#{list.title}を削除して大丈夫ですか?" } %>
+12:                  <%= link_to(content_tag(:i, '編集', class: 'fas fa-pen'), edit_list_path(list)) %>
+13:              </div>
+14:            </div>
+15:    
+16:            <div class="cardWrapper">
+17:            <% list.cards.each do |card|%>
+18:                <div class="card">
+19:                  <div class="head"> 
+20:                        <h3 class="card_title">
+21:                          <%= card.title %>
+22:                        </h3>
+23:                        <li class="btn_start">
+24:                                <%= form_tag("/cards/#{card.id}/log/start_time") do %>
+25:                                  　<input type="hidden" name="card_id">
+26:                                    <input type="submit" value="スタート" class="btn_small">
+27:                                <% end %>
+28:                        </li>
+29:                        <li class="btn_start">
+30:                                <%= form_tag("/cards/#{card.id}/log/end_time") do %>
+31:                                    <input type="hidden" name="card_id">
+32:                                    <input type="submit" value="ストップ" class="btn_small">
+33:                                <% end %>
+34:                        </li>
+35:                    </div>
+36:    
+37:                    <div class="section_log">
+38:                      <% card.logs.each do |log|%>
+39:                          <div class='time_log'>
+40:                              <% @t1 = log.created_at.strftime("%H:%M:%S") %>
+41:                              <% @t2 = log.end_time %>
+42:                              <p>計測 → </p><p>開始: <%= @t1 %></p><span>-</span><p>終了: <%= @t2 %></p>
+43:                              <% if @t1.present? && @t2.present? &&  %>
+44:                                    <p>合計: <%= log.total_time%> </p>
+45:                              <% else %>
+46:                                    <p>何もないよ</p>
+47:                              <% end %>
+48:                          </div>
+49:                      <%end%>
+50:                  </div>
+51:    
+52:                  <div class="cardContents_btnArea">
+53:                    <%= link_to '編集する', edit_list_card_path(card.list, card), class: "edit_btn" %>
+54:                    <%= link_to '削除をする', list_card_path(card.list, card), class: "text-danger delete_btn", method: :delete, data: { confirm: "このカードを削除して大丈夫ですか?" } %>
+55:                  </div>
+56:                </div>
+57:            <%end%>
+58:    
+59:              <div class="addCard">
+60:                <i class="far fa-plus-square"></i>
+61:                <%= link_to "さらにカードを追加", new_list_card_path(list), class: "addCard_link" %>
+62:              </div>
+63:            </div>
+64:    
+65:          </div>
+66:          <% end %> <%#-- if文のend --%>
+67:        <% end %>
+68:      </div>
+69:    </div>
+  
+app/views/top/index.html.erb:3: syntax error, unexpected tIVAR, expecting '('
+app/views/top/index.html.erb:3: syntax error, unexpected '}', expecting keyword_end
+app/views/top/index.html.erb:3: syntax error, unexpected tIVAR, expecting '('
+app/views/top/index.html.erb:3: syntax error, unexpected '}', expecting keyword_end
+app/views/top/index.html.erb:3: syntax error, unexpected tIVAR, expecting '('
+app/views/top/index.html.erb:3: syntax error, unexpected '}', expecting keyword_end
+app/views/top/index.html.erb:3: syntax error, unexpected tIVAR, expecting '('
+app/views/top/index.html.erb:3: syntax error, unexpected '}', expecting keyword_end
+Started GET "/" for ::1 at 2019-09-28 15:18:17 +0900
+Processing by TopController#index as HTML
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? ORDER BY "users"."id" ASC LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  Rendering top/index.html.erb within layouts/application
+  Rendered top/index.html.erb within layouts/application (Duration: 1.0ms | Allocations: 782)
+Completed 500 Internal Server Error in 8ms (ActiveRecord: 0.1ms | Allocations: 3741)
+
+
+  
+ActionView::SyntaxErrorInTemplate (Encountered a syntax error while rendering template: check <div class="topPage">
+  <div class="listWrapper">
+    <% (Date.parse('2019-01-01')..Date.parse('2019-12-31')).@list{|d| d.day == 6}.each do |list| %>
+    <% if list.exists?(:date => Date.today - d) %>
+      <div class="list">
+        <div class="list_header">
+          <h2 class="list_header_title">
+              <%= list.title %>
+          </h2>
+          <div class="list_header_action">
+              <%= link_to content_tag(:i, '削除', class: 'fas fa-trash'), list, method: :delete, data: { confirm: "#{list.title}を削除して大丈夫ですか?" } %>
+              <%= link_to(content_tag(:i, '編集', class: 'fas fa-pen'), edit_list_path(list)) %>
+          </div>
+        </div>
+
+        <div class="cardWrapper">
+        <% list.cards.each do |card|%>
+            <div class="card">
+              <div class="head"> 
+                    <h3 class="card_title">
+                      <%= card.title %>
+                    </h3>
+                    <li class="btn_start">
+                            <%= form_tag("/cards/#{card.id}/log/start_time") do %>
+                              　<input type="hidden" name="card_id">
+                                <input type="submit" value="スタート" class="btn_small">
+                            <% end %>
+                    </li>
+                    <li class="btn_start">
+                            <%= form_tag("/cards/#{card.id}/log/end_time") do %>
+                                <input type="hidden" name="card_id">
+                                <input type="submit" value="ストップ" class="btn_small">
+                            <% end %>
+                    </li>
+                </div>
+
+                <div class="section_log">
+                  <% card.logs.each do |log|%>
+                      <div class='time_log'>
+                          <% @t1 = log.created_at.strftime("%H:%M:%S") %>
+                          <% @t2 = log.end_time %>
+                          <p>計測 → </p><p>開始: <%= @t1 %></p><span>-</span><p>終了: <%= @t2 %></p>
+                          <% if @t1.present? && @t2.present? &&  %>
+                                <p>合計: <%= log.total_time%> </p>
+                          <% else %>
+                                <p>何もないよ</p>
+                          <% end %>
+                      </div>
+                  <%end%>
+              </div>
+
+              <div class="cardContents_btnArea">
+                <%= link_to '編集する', edit_list_card_path(card.list, card), class: "edit_btn" %>
+                <%= link_to '削除をする', list_card_path(card.list, card), class: "text-danger delete_btn", method: :delete, data: { confirm: "このカードを削除して大丈夫ですか?" } %>
+              </div>
+            </div>
+        <%end%>
+
+          <div class="addCard">
+            <i class="far fa-plus-square"></i>
+            <%= link_to "さらにカードを追加", new_list_card_path(list), class: "addCard_link" %>
+          </div>
+        </div>
+
+      </div>
+      <% end %> <%#-- if文のend --%>
+    <% end %>
+  </div>
+</div>
+
+):
+1:    <div class="topPage">
+2:      <div class="listWrapper">
+3:        <% (Date.parse('2019-01-01')..Date.parse('2019-12-31')).@list{|d| d.day == 6}.each do |list| %>
+4:        <% if list.exists?(:date => Date.today - d) %>
+5:          <div class="list">
+6:            <div class="list_header">
+7:              <h2 class="list_header_title">
+8:                  <%= list.title %>
+9:              </h2>
+10:              <div class="list_header_action">
+11:                  <%= link_to content_tag(:i, '削除', class: 'fas fa-trash'), list, method: :delete, data: { confirm: "#{list.title}を削除して大丈夫ですか?" } %>
+12:                  <%= link_to(content_tag(:i, '編集', class: 'fas fa-pen'), edit_list_path(list)) %>
+13:              </div>
+14:            </div>
+15:    
+16:            <div class="cardWrapper">
+17:            <% list.cards.each do |card|%>
+18:                <div class="card">
+19:                  <div class="head"> 
+20:                        <h3 class="card_title">
+21:                          <%= card.title %>
+22:                        </h3>
+23:                        <li class="btn_start">
+24:                                <%= form_tag("/cards/#{card.id}/log/start_time") do %>
+25:                                  　<input type="hidden" name="card_id">
+26:                                    <input type="submit" value="スタート" class="btn_small">
+27:                                <% end %>
+28:                        </li>
+29:                        <li class="btn_start">
+30:                                <%= form_tag("/cards/#{card.id}/log/end_time") do %>
+31:                                    <input type="hidden" name="card_id">
+32:                                    <input type="submit" value="ストップ" class="btn_small">
+33:                                <% end %>
+34:                        </li>
+35:                    </div>
+36:    
+37:                    <div class="section_log">
+38:                      <% card.logs.each do |log|%>
+39:                          <div class='time_log'>
+40:                              <% @t1 = log.created_at.strftime("%H:%M:%S") %>
+41:                              <% @t2 = log.end_time %>
+42:                              <p>計測 → </p><p>開始: <%= @t1 %></p><span>-</span><p>終了: <%= @t2 %></p>
+43:                              <% if @t1.present? && @t2.present? &&  %>
+44:                                    <p>合計: <%= log.total_time%> </p>
+45:                              <% else %>
+46:                                    <p>何もないよ</p>
+47:                              <% end %>
+48:                          </div>
+49:                      <%end%>
+50:                  </div>
+51:    
+52:                  <div class="cardContents_btnArea">
+53:                    <%= link_to '編集する', edit_list_card_path(card.list, card), class: "edit_btn" %>
+54:                    <%= link_to '削除をする', list_card_path(card.list, card), class: "text-danger delete_btn", method: :delete, data: { confirm: "このカードを削除して大丈夫ですか?" } %>
+55:                  </div>
+56:                </div>
+57:            <%end%>
+58:    
+59:              <div class="addCard">
+60:                <i class="far fa-plus-square"></i>
+61:                <%= link_to "さらにカードを追加", new_list_card_path(list), class: "addCard_link" %>
+62:              </div>
+63:            </div>
+64:    
+65:          </div>
+66:          <% end %> <%#-- if文のend --%>
+67:        <% end %>
+68:      </div>
+69:    </div>
+  
+app/views/top/index.html.erb:3: syntax error, unexpected tIVAR, expecting '('
+app/views/top/index.html.erb:3: syntax error, unexpected '}', expecting keyword_end
+app/views/top/index.html.erb:3: syntax error, unexpected tIVAR, expecting '('
+app/views/top/index.html.erb:3: syntax error, unexpected '}', expecting keyword_end
+app/views/top/index.html.erb:3: syntax error, unexpected tIVAR, expecting '('
+app/views/top/index.html.erb:3: syntax error, unexpected '}', expecting keyword_end
+app/views/top/index.html.erb:3: syntax error, unexpected tIVAR, expecting '('
+app/views/top/index.html.erb:3: syntax error, unexpected '}', expecting keyword_end
+Started GET "/" for ::1 at 2019-09-28 15:18:42 +0900
+Processing by TopController#index as HTML
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? ORDER BY "users"."id" ASC LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  Rendering top/index.html.erb within layouts/application
+  Rendered top/index.html.erb within layouts/application (Duration: 0.8ms | Allocations: 775)
+Completed 500 Internal Server Error in 5ms (ActiveRecord: 0.2ms | Allocations: 3666)
+
+
+  
+ActionView::SyntaxErrorInTemplate (Encountered a syntax error while rendering template: check <div class="topPage">
+  <div class="listWrapper">
+    <% @list{|d| d.day == 6}.each do |list| %>
+    <% if list.exists?(:date => Date.today - d) %>
+      <div class="list">
+        <div class="list_header">
+          <h2 class="list_header_title">
+              <%= list.title %>
+          </h2>
+          <div class="list_header_action">
+              <%= link_to content_tag(:i, '削除', class: 'fas fa-trash'), list, method: :delete, data: { confirm: "#{list.title}を削除して大丈夫ですか?" } %>
+              <%= link_to(content_tag(:i, '編集', class: 'fas fa-pen'), edit_list_path(list)) %>
+          </div>
+        </div>
+
+        <div class="cardWrapper">
+        <% list.cards.each do |card|%>
+            <div class="card">
+              <div class="head"> 
+                    <h3 class="card_title">
+                      <%= card.title %>
+                    </h3>
+                    <li class="btn_start">
+                            <%= form_tag("/cards/#{card.id}/log/start_time") do %>
+                              　<input type="hidden" name="card_id">
+                                <input type="submit" value="スタート" class="btn_small">
+                            <% end %>
+                    </li>
+                    <li class="btn_start">
+                            <%= form_tag("/cards/#{card.id}/log/end_time") do %>
+                                <input type="hidden" name="card_id">
+                                <input type="submit" value="ストップ" class="btn_small">
+                            <% end %>
+                    </li>
+                </div>
+
+                <div class="section_log">
+                  <% card.logs.each do |log|%>
+                      <div class='time_log'>
+                          <% @t1 = log.created_at.strftime("%H:%M:%S") %>
+                          <% @t2 = log.end_time %>
+                          <p>計測 → </p><p>開始: <%= @t1 %></p><span>-</span><p>終了: <%= @t2 %></p>
+                          <% if @t1.present? && @t2.present? &&  %>
+                                <p>合計: <%= log.total_time%> </p>
+                          <% else %>
+                                <p>何もないよ</p>
+                          <% end %>
+                      </div>
+                  <%end%>
+              </div>
+
+              <div class="cardContents_btnArea">
+                <%= link_to '編集する', edit_list_card_path(card.list, card), class: "edit_btn" %>
+                <%= link_to '削除をする', list_card_path(card.list, card), class: "text-danger delete_btn", method: :delete, data: { confirm: "このカードを削除して大丈夫ですか?" } %>
+              </div>
+            </div>
+        <%end%>
+
+          <div class="addCard">
+            <i class="far fa-plus-square"></i>
+            <%= link_to "さらにカードを追加", new_list_card_path(list), class: "addCard_link" %>
+          </div>
+        </div>
+
+      </div>
+      <% end %> <%#-- if文のend --%>
+    <% end %>
+  </div>
+</div>
+
+):
+1:    <div class="topPage">
+2:      <div class="listWrapper">
+3:        <% @list{|d| d.day == 6}.each do |list| %>
+4:        <% if list.exists?(:date => Date.today - d) %>
+5:          <div class="list">
+6:            <div class="list_header">
+7:              <h2 class="list_header_title">
+8:                  <%= list.title %>
+9:              </h2>
+10:              <div class="list_header_action">
+11:                  <%= link_to content_tag(:i, '削除', class: 'fas fa-trash'), list, method: :delete, data: { confirm: "#{list.title}を削除して大丈夫ですか?" } %>
+12:                  <%= link_to(content_tag(:i, '編集', class: 'fas fa-pen'), edit_list_path(list)) %>
+13:              </div>
+14:            </div>
+15:    
+16:            <div class="cardWrapper">
+17:            <% list.cards.each do |card|%>
+18:                <div class="card">
+19:                  <div class="head"> 
+20:                        <h3 class="card_title">
+21:                          <%= card.title %>
+22:                        </h3>
+23:                        <li class="btn_start">
+24:                                <%= form_tag("/cards/#{card.id}/log/start_time") do %>
+25:                                  　<input type="hidden" name="card_id">
+26:                                    <input type="submit" value="スタート" class="btn_small">
+27:                                <% end %>
+28:                        </li>
+29:                        <li class="btn_start">
+30:                                <%= form_tag("/cards/#{card.id}/log/end_time") do %>
+31:                                    <input type="hidden" name="card_id">
+32:                                    <input type="submit" value="ストップ" class="btn_small">
+33:                                <% end %>
+34:                        </li>
+35:                    </div>
+36:    
+37:                    <div class="section_log">
+38:                      <% card.logs.each do |log|%>
+39:                          <div class='time_log'>
+40:                              <% @t1 = log.created_at.strftime("%H:%M:%S") %>
+41:                              <% @t2 = log.end_time %>
+42:                              <p>計測 → </p><p>開始: <%= @t1 %></p><span>-</span><p>終了: <%= @t2 %></p>
+43:                              <% if @t1.present? && @t2.present? &&  %>
+44:                                    <p>合計: <%= log.total_time%> </p>
+45:                              <% else %>
+46:                                    <p>何もないよ</p>
+47:                              <% end %>
+48:                          </div>
+49:                      <%end%>
+50:                  </div>
+51:    
+52:                  <div class="cardContents_btnArea">
+53:                    <%= link_to '編集する', edit_list_card_path(card.list, card), class: "edit_btn" %>
+54:                    <%= link_to '削除をする', list_card_path(card.list, card), class: "text-danger delete_btn", method: :delete, data: { confirm: "このカードを削除して大丈夫ですか?" } %>
+55:                  </div>
+56:                </div>
+57:            <%end%>
+58:    
+59:              <div class="addCard">
+60:                <i class="far fa-plus-square"></i>
+61:                <%= link_to "さらにカードを追加", new_list_card_path(list), class: "addCard_link" %>
+62:              </div>
+63:            </div>
+64:    
+65:          </div>
+66:          <% end %> <%#-- if文のend --%>
+67:        <% end %>
+68:      </div>
+69:    </div>
+  
+app/views/top/index.html.erb:3: syntax error, unexpected '{', expecting keyword_end
+app/views/top/index.html.erb:3: syntax error, unexpected '}', expecting keyword_end
+app/views/top/index.html.erb:3: syntax error, unexpected '{', expecting keyword_end
+app/views/top/index.html.erb:3: syntax error, unexpected '}', expecting keyword_end
+app/views/top/index.html.erb:3: syntax error, unexpected '{', expecting keyword_end
+app/views/top/index.html.erb:3: syntax error, unexpected '}', expecting keyword_end
+app/views/top/index.html.erb:3: syntax error, unexpected '{', expecting keyword_end
+app/views/top/index.html.erb:3: syntax error, unexpected '}', expecting keyword_end
+Started GET "/" for ::1 at 2019-09-28 15:20:16 +0900
+Processing by TopController#index as HTML
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? ORDER BY "users"."id" ASC LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  Rendering top/index.html.erb within layouts/application
+  [1m[36mList Load (1.4ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? ORDER BY created_at ASC[0m  [["user_id", 1]]
+  ↳ app/views/top/index.html.erb:3
+  Rendered top/index.html.erb within layouts/application (Duration: 11.0ms | Allocations: 7821)
+Completed 500 Internal Server Error in 16ms (ActiveRecord: 1.8ms | Allocations: 10731)
+
+
+  
+ActionView::Template::Error (undefined method `day' for #<List:0x00007fe40e887a58>):
+    1: <div class="topPage">
+    2:   <div class="listWrapper">
+    3:     <% @list.select{|d| d.day == 6}.each do |list| %>
+    4:     <% if list.exists?(:date => Date.today - d) %>
+    5:       <div class="list">
+    6:         <div class="list_header">
+  
+app/views/top/index.html.erb:3
+app/views/top/index.html.erb:3
+Started GET "/" for ::1 at 2019-09-28 15:20:57 +0900
+Processing by TopController#index as HTML
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? ORDER BY "users"."id" ASC LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  Rendering top/index.html.erb within layouts/application
+  [1m[36mList Load (0.2ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? ORDER BY created_at ASC[0m  [["user_id", 1]]
+  ↳ app/views/top/index.html.erb:3
+  Rendered top/index.html.erb within layouts/application (Duration: 2.3ms | Allocations: 1364)
+  Rendered partial/_header.html.erb (Duration: 0.9ms | Allocations: 332)
+Completed 200 OK in 20ms (Views: 16.4ms | ActiveRecord: 0.4ms | Allocations: 6880)
+
+
+Started GET "/" for ::1 at 2019-09-28 15:21:50 +0900
+Processing by TopController#index as HTML
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? ORDER BY "users"."id" ASC LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  Rendering top/index.html.erb within layouts/application
+  Rendered top/index.html.erb within layouts/application (Duration: 3.3ms | Allocations: 777)
+Completed 500 Internal Server Error in 8ms (ActiveRecord: 0.1ms | Allocations: 3666)
+
+
+  
+ActionView::SyntaxErrorInTemplate (Encountered a syntax error while rendering template: check <div class="topPage">
+  <div class="listWrapper">
+    <% @list.select{|d| d == 0....6}.each do |list| %>
+    <% if list.exists?(:date => Date.today - d) %>
+      <div class="list">
+        <div class="list_header">
+          <h2 class="list_header_title">
+              <%= list.title %>
+          </h2>
+          <div class="list_header_action">
+              <%= link_to content_tag(:i, '削除', class: 'fas fa-trash'), list, method: :delete, data: { confirm: "#{list.title}を削除して大丈夫ですか?" } %>
+              <%= link_to(content_tag(:i, '編集', class: 'fas fa-pen'), edit_list_path(list)) %>
+          </div>
+        </div>
+
+        <div class="cardWrapper">
+        <% list.cards.each do |card|%>
+            <div class="card">
+              <div class="head"> 
+                    <h3 class="card_title">
+                      <%= card.title %>
+                    </h3>
+                    <li class="btn_start">
+                            <%= form_tag("/cards/#{card.id}/log/start_time") do %>
+                              　<input type="hidden" name="card_id">
+                                <input type="submit" value="スタート" class="btn_small">
+                            <% end %>
+                    </li>
+                    <li class="btn_start">
+                            <%= form_tag("/cards/#{card.id}/log/end_time") do %>
+                                <input type="hidden" name="card_id">
+                                <input type="submit" value="ストップ" class="btn_small">
+                            <% end %>
+                    </li>
+                </div>
+
+                <div class="section_log">
+                  <% card.logs.each do |log|%>
+                      <div class='time_log'>
+                          <% @t1 = log.created_at.strftime("%H:%M:%S") %>
+                          <% @t2 = log.end_time %>
+                          <p>計測 → </p><p>開始: <%= @t1 %></p><span>-</span><p>終了: <%= @t2 %></p>
+                          <% if @t1.present? && @t2.present? &&  %>
+                                <p>合計: <%= log.total_time%> </p>
+                          <% else %>
+                                <p>何もないよ</p>
+                          <% end %>
+                      </div>
+                  <%end%>
+              </div>
+
+              <div class="cardContents_btnArea">
+                <%= link_to '編集する', edit_list_card_path(card.list, card), class: "edit_btn" %>
+                <%= link_to '削除をする', list_card_path(card.list, card), class: "text-danger delete_btn", method: :delete, data: { confirm: "このカードを削除して大丈夫ですか?" } %>
+              </div>
+            </div>
+        <%end%>
+
+          <div class="addCard">
+            <i class="far fa-plus-square"></i>
+            <%= link_to "さらにカードを追加", new_list_card_path(list), class: "addCard_link" %>
+          </div>
+        </div>
+
+      </div>
+      <% end %> <%#-- if文のend --%>
+    <% end %>
+  </div>
+</div>
+
+):
+1:    <div class="topPage">
+2:      <div class="listWrapper">
+3:        <% @list.select{|d| d == 0....6}.each do |list| %>
+4:        <% if list.exists?(:date => Date.today - d) %>
+5:          <div class="list">
+6:            <div class="list_header">
+7:              <h2 class="list_header_title">
+8:                  <%= list.title %>
+9:              </h2>
+10:              <div class="list_header_action">
+11:                  <%= link_to content_tag(:i, '削除', class: 'fas fa-trash'), list, method: :delete, data: { confirm: "#{list.title}を削除して大丈夫ですか?" } %>
+12:                  <%= link_to(content_tag(:i, '編集', class: 'fas fa-pen'), edit_list_path(list)) %>
+13:              </div>
+14:            </div>
+15:    
+16:            <div class="cardWrapper">
+17:            <% list.cards.each do |card|%>
+18:                <div class="card">
+19:                  <div class="head"> 
+20:                        <h3 class="card_title">
+21:                          <%= card.title %>
+22:                        </h3>
+23:                        <li class="btn_start">
+24:                                <%= form_tag("/cards/#{card.id}/log/start_time") do %>
+25:                                  　<input type="hidden" name="card_id">
+26:                                    <input type="submit" value="スタート" class="btn_small">
+27:                                <% end %>
+28:                        </li>
+29:                        <li class="btn_start">
+30:                                <%= form_tag("/cards/#{card.id}/log/end_time") do %>
+31:                                    <input type="hidden" name="card_id">
+32:                                    <input type="submit" value="ストップ" class="btn_small">
+33:                                <% end %>
+34:                        </li>
+35:                    </div>
+36:    
+37:                    <div class="section_log">
+38:                      <% card.logs.each do |log|%>
+39:                          <div class='time_log'>
+40:                              <% @t1 = log.created_at.strftime("%H:%M:%S") %>
+41:                              <% @t2 = log.end_time %>
+42:                              <p>計測 → </p><p>開始: <%= @t1 %></p><span>-</span><p>終了: <%= @t2 %></p>
+43:                              <% if @t1.present? && @t2.present? &&  %>
+44:                                    <p>合計: <%= log.total_time%> </p>
+45:                              <% else %>
+46:                                    <p>何もないよ</p>
+47:                              <% end %>
+48:                          </div>
+49:                      <%end%>
+50:                  </div>
+51:    
+52:                  <div class="cardContents_btnArea">
+53:                    <%= link_to '編集する', edit_list_card_path(card.list, card), class: "edit_btn" %>
+54:                    <%= link_to '削除をする', list_card_path(card.list, card), class: "text-danger delete_btn", method: :delete, data: { confirm: "このカードを削除して大丈夫ですか?" } %>
+55:                  </div>
+56:                </div>
+57:            <%end%>
+58:    
+59:              <div class="addCard">
+60:                <i class="far fa-plus-square"></i>
+61:                <%= link_to "さらにカードを追加", new_list_card_path(list), class: "addCard_link" %>
+62:              </div>
+63:            </div>
+64:    
+65:          </div>
+66:          <% end %> <%#-- if文のend --%>
+67:        <% end %>
+68:      </div>
+69:    </div>
+  
+app/views/top/index.html.erb:3: no .<digit> floating literal anymore; put 0 before dot
+app/views/top/index.html.erb:3: syntax error, unexpected '.'
+app/views/top/index.html.erb:3: no .<digit> floating literal anymore; put 0 before dot
+app/views/top/index.html.erb:3: syntax error, unexpected '.'
+app/views/top/index.html.erb:3: no .<digit> floating literal anymore; put 0 before dot
+app/views/top/index.html.erb:3: syntax error, unexpected '.'
+app/views/top/index.html.erb:3: no .<digit> floating literal anymore; put 0 before dot
+app/views/top/index.html.erb:3: syntax error, unexpected '.'
+Started GET "/" for ::1 at 2019-09-28 15:23:55 +0900
+Processing by TopController#index as HTML
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? ORDER BY "users"."id" ASC LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  Rendering top/index.html.erb within layouts/application
+  [1m[36mList Load (0.2ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? ORDER BY created_at ASC LIMIT ?[0m  [["user_id", 1], ["LIMIT", 11]]
+  [1m[36mCACHE List Load (0.0ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? ORDER BY created_at ASC LIMIT ?[0m  [["user_id", 1], ["LIMIT", 11]]
+  [1m[36mCACHE List Load (0.0ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? ORDER BY created_at ASC LIMIT ?[0m  [["user_id", 1], ["LIMIT", 11]]
+  [1m[36mCACHE List Load (0.0ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? ORDER BY created_at ASC LIMIT ?[0m  [["user_id", 1], ["LIMIT", 11]]
+  [1m[36mCACHE List Load (0.0ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? ORDER BY created_at ASC LIMIT ?[0m  [["user_id", 1], ["LIMIT", 11]]
+  [1m[36mCACHE List Load (0.0ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? ORDER BY created_at ASC LIMIT ?[0m  [["user_id", 1], ["LIMIT", 11]]
+  [1m[36mCACHE List Load (0.0ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? ORDER BY created_at ASC LIMIT ?[0m  [["user_id", 1], ["LIMIT", 11]]
+  [1m[36mCACHE List Load (0.0ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? ORDER BY created_at ASC LIMIT ?[0m  [["user_id", 1], ["LIMIT", 11]]
+  Rendered top/index.html.erb within layouts/application (Duration: 414.8ms | Allocations: 217390)
+Completed 500 Internal Server Error in 421ms (ActiveRecord: 0.6ms | Allocations: 220282)
+
+
+  
+ActionView::Template::Error (undefined local variable or method `list' for #<#<Class:0x00007fe40cbc3c78>:0x00007fe40cbc1c70>
+Did you mean?  @list):
+    1: <div class="topPage">
+    2:   <div class="listWrapper">
+    3:     <%# <% @list.select{|d| d == 6}.each do |list| %> %>
+    4:     <% if list.exists?(:date => Date.today) %>
+    5:       <div class="list">
+    6:         <div class="list_header">
+    7:           <h2 class="list_header_title">
+  
+app/views/top/index.html.erb:4
+Started GET "/" for ::1 at 2019-09-28 15:24:55 +0900
+Processing by TopController#index as HTML
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? ORDER BY "users"."id" ASC LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  Rendering top/index.html.erb within layouts/application
+  [1m[36mList Load (0.2ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? ORDER BY created_at ASC[0m  [["user_id", 1]]
+  ↳ app/views/top/index.html.erb:3
+  Rendered top/index.html.erb within layouts/application (Duration: 6.2ms | Allocations: 3843)
+Completed 500 Internal Server Error in 11ms (ActiveRecord: 0.3ms | Allocations: 6752)
+
+
+  
+ActionView::Template::Error (undefined method `exists?' for #<List:0x00007fe40e3d16f8>):
+    2:   <div class="listWrapper">
+    3:    <% @list.each do |list| %>
+    4:     <%# <% @list.select{|d| d == 6}.each do |list| %> %>
+    5:     <% if list.exists?(:date => Date.today) %>
+    6:       <div class="list">
+    7:         <div class="list_header">
+    8:           <h2 class="list_header_title">
+  
+app/views/top/index.html.erb:5
+app/views/top/index.html.erb:3
+Started GET "/" for ::1 at 2019-09-28 15:25:09 +0900
+Processing by TopController#index as HTML
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? ORDER BY "users"."id" ASC LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  Rendering top/index.html.erb within layouts/application
+  [1m[36mList Load (0.2ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? ORDER BY created_at ASC[0m  [["user_id", 1]]
+  ↳ app/views/top/index.html.erb:3
+  Rendered top/index.html.erb within layouts/application (Duration: 8.8ms | Allocations: 3835)
+Completed 500 Internal Server Error in 14ms (ActiveRecord: 0.3ms | Allocations: 6728)
+
+
+  
+ActionView::Template::Error (undefined method `where' for #<List:0x00007fe412591520>):
+    2:   <div class="listWrapper">
+    3:    <% @list.each do |list| %>
+    4:     <%# <% @list.select{|d| d == 6}.each do |list| %> %>
+    5:     <% if list.where(:date => Date.today) %>
+    6:       <div class="list">
+    7:         <div class="list_header">
+    8:           <h2 class="list_header_title">
+  
+app/views/top/index.html.erb:5
+app/views/top/index.html.erb:3
+Started GET "/" for ::1 at 2019-09-28 15:25:21 +0900
+Processing by TopController#index as HTML
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? ORDER BY "users"."id" ASC LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  Rendering top/index.html.erb within layouts/application
+  [1m[36mList Load (0.2ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? ORDER BY created_at ASC[0m  [["user_id", 1]]
+  ↳ app/views/top/index.html.erb:3
+  Rendered top/index.html.erb within layouts/application (Duration: 5.7ms | Allocations: 3836)
+Completed 500 Internal Server Error in 11ms (ActiveRecord: 0.4ms | Allocations: 6728)
+
+
+  
+ActionView::Template::Error (undefined method `find_by' for #<List:0x00007fe4122b4f00>):
+    2:   <div class="listWrapper">
+    3:    <% @list.each do |list| %>
+    4:     <%# <% @list.select{|d| d == 6}.each do |list| %> %>
+    5:     <% if list.find_by(:date => Date.today) %>
+    6:       <div class="list">
+    7:         <div class="list_header">
+    8:           <h2 class="list_header_title">
+  
+app/views/top/index.html.erb:5
+app/views/top/index.html.erb:3
+Started GET "/" for ::1 at 2019-09-28 15:36:09 +0900
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+Processing by TopController#index as HTML
+  [1m[36mUser Load (0.5ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? ORDER BY "users"."id" ASC LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  Rendering top/index.html.erb within layouts/application
+  Rendered top/index.html.erb within layouts/application (Duration: 1.0ms | Allocations: 800)
+Completed 500 Internal Server Error in 6ms (ActiveRecord: 0.5ms | Allocations: 3720)
+
+
+  
+ActionView::SyntaxErrorInTemplate (Encountered a syntax error while rendering template: check <div class="topPage">
+  <div class="listWrapper">
+   <% (Date.parse('2000-01-01')..Date.parse('2000-12-31')).@list.each do |list| %>
+    <%# <% (Date.parse('2000-01-01')..Date.parse('2000-12-31')).@list.each do |list| %> %>
+    <% if list.find_by(:date => Date.today) %>
+      <div class="list">
+        <div class="list_header">
+          <h2 class="list_header_title">
+              <%= list.title %>
+          </h2>
+          <div class="list_header_action">
+              <%= link_to content_tag(:i, '削除', class: 'fas fa-trash'), list, method: :delete, data: { confirm: "#{list.title}を削除して大丈夫ですか?" } %>
+              <%= link_to(content_tag(:i, '編集', class: 'fas fa-pen'), edit_list_path(list)) %>
+          </div>
+        </div>
+
+        <div class="cardWrapper">
+        <% list.cards.each do |card|%>
+            <div class="card">
+              <div class="head"> 
+                    <h3 class="card_title">
+                      <%= card.title %>
+                    </h3>
+                    <li class="btn_start">
+                            <%= form_tag("/cards/#{card.id}/log/start_time") do %>
+                              　<input type="hidden" name="card_id">
+                                <input type="submit" value="スタート" class="btn_small">
+                            <% end %>
+                    </li>
+                    <li class="btn_start">
+                            <%= form_tag("/cards/#{card.id}/log/end_time") do %>
+                                <input type="hidden" name="card_id">
+                                <input type="submit" value="ストップ" class="btn_small">
+                            <% end %>
+                    </li>
+                </div>
+
+                <div class="section_log">
+                  <% card.logs.each do |log|%>
+                      <div class='time_log'>
+                          <% @t1 = log.created_at.strftime("%H:%M:%S") %>
+                          <% @t2 = log.end_time %>
+                          <p>計測 → </p><p>開始: <%= @t1 %></p><span>-</span><p>終了: <%= @t2 %></p>
+                          <% if @t1.present? && @t2.present? &&  %>
+                                <p>合計: <%= log.total_time%> </p>
+                          <% else %>
+                                <p>何もないよ</p>
+                          <% end %>
+                      </div>
+                  <%end%>
+              </div>
+
+              <div class="cardContents_btnArea">
+                <%= link_to '編集する', edit_list_card_path(card.list, card), class: "edit_btn" %>
+                <%= link_to '削除をする', list_card_path(card.list, card), class: "text-danger delete_btn", method: :delete, data: { confirm: "このカードを削除して大丈夫ですか?" } %>
+              </div>
+            </div>
+        <%end%>
+
+          <div class="addCard">
+            <i class="far fa-plus-square"></i>
+            <%= link_to "さらにカードを追加", new_list_card_path(list), class: "addCard_link" %>
+          </div>
+        </div>
+
+      </div>
+      <% end %> <%#-- if文のend --%> %>
+    <% end %>
+  </div>
+</div>
+
+):
+1:    <div class="topPage">
+2:      <div class="listWrapper">
+3:       <% (Date.parse('2000-01-01')..Date.parse('2000-12-31')).@list.each do |list| %>
+4:        <%# <% (Date.parse('2000-01-01')..Date.parse('2000-12-31')).@list.each do |list| %> %>
+5:        <% if list.find_by(:date => Date.today) %>
+6:          <div class="list">
+7:            <div class="list_header">
+8:              <h2 class="list_header_title">
+9:                  <%= list.title %>
+10:              </h2>
+11:              <div class="list_header_action">
+12:                  <%= link_to content_tag(:i, '削除', class: 'fas fa-trash'), list, method: :delete, data: { confirm: "#{list.title}を削除して大丈夫ですか?" } %>
+13:                  <%= link_to(content_tag(:i, '編集', class: 'fas fa-pen'), edit_list_path(list)) %>
+14:              </div>
+15:            </div>
+16:    
+17:            <div class="cardWrapper">
+18:            <% list.cards.each do |card|%>
+19:                <div class="card">
+20:                  <div class="head"> 
+21:                        <h3 class="card_title">
+22:                          <%= card.title %>
+23:                        </h3>
+24:                        <li class="btn_start">
+25:                                <%= form_tag("/cards/#{card.id}/log/start_time") do %>
+26:                                  　<input type="hidden" name="card_id">
+27:                                    <input type="submit" value="スタート" class="btn_small">
+28:                                <% end %>
+29:                        </li>
+30:                        <li class="btn_start">
+31:                                <%= form_tag("/cards/#{card.id}/log/end_time") do %>
+32:                                    <input type="hidden" name="card_id">
+33:                                    <input type="submit" value="ストップ" class="btn_small">
+34:                                <% end %>
+35:                        </li>
+36:                    </div>
+37:    
+38:                    <div class="section_log">
+39:                      <% card.logs.each do |log|%>
+40:                          <div class='time_log'>
+41:                              <% @t1 = log.created_at.strftime("%H:%M:%S") %>
+42:                              <% @t2 = log.end_time %>
+43:                              <p>計測 → </p><p>開始: <%= @t1 %></p><span>-</span><p>終了: <%= @t2 %></p>
+44:                              <% if @t1.present? && @t2.present? &&  %>
+45:                                    <p>合計: <%= log.total_time%> </p>
+46:                              <% else %>
+47:                                    <p>何もないよ</p>
+48:                              <% end %>
+49:                          </div>
+50:                      <%end%>
+51:                  </div>
+52:    
+53:                  <div class="cardContents_btnArea">
+54:                    <%= link_to '編集する', edit_list_card_path(card.list, card), class: "edit_btn" %>
+55:                    <%= link_to '削除をする', list_card_path(card.list, card), class: "text-danger delete_btn", method: :delete, data: { confirm: "このカードを削除して大丈夫ですか?" } %>
+56:                  </div>
+57:                </div>
+58:            <%end%>
+59:    
+60:              <div class="addCard">
+61:                <i class="far fa-plus-square"></i>
+62:                <%= link_to "さらにカードを追加", new_list_card_path(list), class: "addCard_link" %>
+63:              </div>
+64:            </div>
+65:    
+66:          </div>
+67:          <% end %> <%#-- if文のend --%> %>
+68:        <% end %>
+69:      </div>
+70:    </div>
+  
+app/views/top/index.html.erb:3: syntax error, unexpected tIVAR, expecting '('
+app/views/top/index.html.erb:3: syntax error, unexpected tIVAR, expecting '('
+app/views/top/index.html.erb:3: syntax error, unexpected tIVAR, expecting '('
+app/views/top/index.html.erb:3: syntax error, unexpected tIVAR, expecting '('
+Started GET "/" for ::1 at 2019-09-28 15:36:31 +0900
+Processing by TopController#index as HTML
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? ORDER BY "users"."id" ASC LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  Rendering top/index.html.erb within layouts/application
+  Rendered top/index.html.erb within layouts/application (Duration: 1.0ms | Allocations: 796)
+Completed 500 Internal Server Error in 6ms (ActiveRecord: 0.1ms | Allocations: 3689)
+
+
+  
+ActionView::SyntaxErrorInTemplate (Encountered a syntax error while rendering template: check <div class="topPage">
+  <div class="listWrapper">
+   <% 5.@list.each do |list| %>
+    <%# <% (Date.parse('2000-01-01')..Date.parse('2000-12-31')).@list.each do |list| %> %>
+    <% if list.find_by(:date => Date.today) %>
+      <div class="list">
+        <div class="list_header">
+          <h2 class="list_header_title">
+              <%= list.title %>
+          </h2>
+          <div class="list_header_action">
+              <%= link_to content_tag(:i, '削除', class: 'fas fa-trash'), list, method: :delete, data: { confirm: "#{list.title}を削除して大丈夫ですか?" } %>
+              <%= link_to(content_tag(:i, '編集', class: 'fas fa-pen'), edit_list_path(list)) %>
+          </div>
+        </div>
+
+        <div class="cardWrapper">
+        <% list.cards.each do |card|%>
+            <div class="card">
+              <div class="head"> 
+                    <h3 class="card_title">
+                      <%= card.title %>
+                    </h3>
+                    <li class="btn_start">
+                            <%= form_tag("/cards/#{card.id}/log/start_time") do %>
+                              　<input type="hidden" name="card_id">
+                                <input type="submit" value="スタート" class="btn_small">
+                            <% end %>
+                    </li>
+                    <li class="btn_start">
+                            <%= form_tag("/cards/#{card.id}/log/end_time") do %>
+                                <input type="hidden" name="card_id">
+                                <input type="submit" value="ストップ" class="btn_small">
+                            <% end %>
+                    </li>
+                </div>
+
+                <div class="section_log">
+                  <% card.logs.each do |log|%>
+                      <div class='time_log'>
+                          <% @t1 = log.created_at.strftime("%H:%M:%S") %>
+                          <% @t2 = log.end_time %>
+                          <p>計測 → </p><p>開始: <%= @t1 %></p><span>-</span><p>終了: <%= @t2 %></p>
+                          <% if @t1.present? && @t2.present? &&  %>
+                                <p>合計: <%= log.total_time%> </p>
+                          <% else %>
+                                <p>何もないよ</p>
+                          <% end %>
+                      </div>
+                  <%end%>
+              </div>
+
+              <div class="cardContents_btnArea">
+                <%= link_to '編集する', edit_list_card_path(card.list, card), class: "edit_btn" %>
+                <%= link_to '削除をする', list_card_path(card.list, card), class: "text-danger delete_btn", method: :delete, data: { confirm: "このカードを削除して大丈夫ですか?" } %>
+              </div>
+            </div>
+        <%end%>
+
+          <div class="addCard">
+            <i class="far fa-plus-square"></i>
+            <%= link_to "さらにカードを追加", new_list_card_path(list), class: "addCard_link" %>
+          </div>
+        </div>
+
+      </div>
+      <% end %> <%#-- if文のend --%> %>
+    <% end %>
+  </div>
+</div>
+
+):
+1:    <div class="topPage">
+2:      <div class="listWrapper">
+3:       <% 5.@list.each do |list| %>
+4:        <%# <% (Date.parse('2000-01-01')..Date.parse('2000-12-31')).@list.each do |list| %> %>
+5:        <% if list.find_by(:date => Date.today) %>
+6:          <div class="list">
+7:            <div class="list_header">
+8:              <h2 class="list_header_title">
+9:                  <%= list.title %>
+10:              </h2>
+11:              <div class="list_header_action">
+12:                  <%= link_to content_tag(:i, '削除', class: 'fas fa-trash'), list, method: :delete, data: { confirm: "#{list.title}を削除して大丈夫ですか?" } %>
+13:                  <%= link_to(content_tag(:i, '編集', class: 'fas fa-pen'), edit_list_path(list)) %>
+14:              </div>
+15:            </div>
+16:    
+17:            <div class="cardWrapper">
+18:            <% list.cards.each do |card|%>
+19:                <div class="card">
+20:                  <div class="head"> 
+21:                        <h3 class="card_title">
+22:                          <%= card.title %>
+23:                        </h3>
+24:                        <li class="btn_start">
+25:                                <%= form_tag("/cards/#{card.id}/log/start_time") do %>
+26:                                  　<input type="hidden" name="card_id">
+27:                                    <input type="submit" value="スタート" class="btn_small">
+28:                                <% end %>
+29:                        </li>
+30:                        <li class="btn_start">
+31:                                <%= form_tag("/cards/#{card.id}/log/end_time") do %>
+32:                                    <input type="hidden" name="card_id">
+33:                                    <input type="submit" value="ストップ" class="btn_small">
+34:                                <% end %>
+35:                        </li>
+36:                    </div>
+37:    
+38:                    <div class="section_log">
+39:                      <% card.logs.each do |log|%>
+40:                          <div class='time_log'>
+41:                              <% @t1 = log.created_at.strftime("%H:%M:%S") %>
+42:                              <% @t2 = log.end_time %>
+43:                              <p>計測 → </p><p>開始: <%= @t1 %></p><span>-</span><p>終了: <%= @t2 %></p>
+44:                              <% if @t1.present? && @t2.present? &&  %>
+45:                                    <p>合計: <%= log.total_time%> </p>
+46:                              <% else %>
+47:                                    <p>何もないよ</p>
+48:                              <% end %>
+49:                          </div>
+50:                      <%end%>
+51:                  </div>
+52:    
+53:                  <div class="cardContents_btnArea">
+54:                    <%= link_to '編集する', edit_list_card_path(card.list, card), class: "edit_btn" %>
+55:                    <%= link_to '削除をする', list_card_path(card.list, card), class: "text-danger delete_btn", method: :delete, data: { confirm: "このカードを削除して大丈夫ですか?" } %>
+56:                  </div>
+57:                </div>
+58:            <%end%>
+59:    
+60:              <div class="addCard">
+61:                <i class="far fa-plus-square"></i>
+62:                <%= link_to "さらにカードを追加", new_list_card_path(list), class: "addCard_link" %>
+63:              </div>
+64:            </div>
+65:    
+66:          </div>
+67:          <% end %> <%#-- if文のend --%> %>
+68:        <% end %>
+69:      </div>
+70:    </div>
+  
+app/views/top/index.html.erb:3: syntax error, unexpected tIVAR, expecting '('
+app/views/top/index.html.erb:3: syntax error, unexpected tIVAR, expecting '('
+app/views/top/index.html.erb:3: syntax error, unexpected tIVAR, expecting '('
+app/views/top/index.html.erb:3: syntax error, unexpected tIVAR, expecting '('
+Started GET "/" for ::1 at 2019-09-28 15:36:46 +0900
+Processing by TopController#index as HTML
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? ORDER BY "users"."id" ASC LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  Rendering top/index.html.erb within layouts/application
+  Rendered top/index.html.erb within layouts/application (Duration: 0.9ms | Allocations: 796)
+Completed 500 Internal Server Error in 7ms (ActiveRecord: 0.2ms | Allocations: 3689)
+
+
+  
+ActionView::SyntaxErrorInTemplate (Encountered a syntax error while rendering template: check <div class="topPage">
+  <div class="listWrapper">
+   <% (5).@list.each do |list| %>
+    <%# <% (Date.parse('2000-01-01')..Date.parse('2000-12-31')).@list.each do |list| %> %>
+    <% if list.find_by(:date => Date.today) %>
+      <div class="list">
+        <div class="list_header">
+          <h2 class="list_header_title">
+              <%= list.title %>
+          </h2>
+          <div class="list_header_action">
+              <%= link_to content_tag(:i, '削除', class: 'fas fa-trash'), list, method: :delete, data: { confirm: "#{list.title}を削除して大丈夫ですか?" } %>
+              <%= link_to(content_tag(:i, '編集', class: 'fas fa-pen'), edit_list_path(list)) %>
+          </div>
+        </div>
+
+        <div class="cardWrapper">
+        <% list.cards.each do |card|%>
+            <div class="card">
+              <div class="head"> 
+                    <h3 class="card_title">
+                      <%= card.title %>
+                    </h3>
+                    <li class="btn_start">
+                            <%= form_tag("/cards/#{card.id}/log/start_time") do %>
+                              　<input type="hidden" name="card_id">
+                                <input type="submit" value="スタート" class="btn_small">
+                            <% end %>
+                    </li>
+                    <li class="btn_start">
+                            <%= form_tag("/cards/#{card.id}/log/end_time") do %>
+                                <input type="hidden" name="card_id">
+                                <input type="submit" value="ストップ" class="btn_small">
+                            <% end %>
+                    </li>
+                </div>
+
+                <div class="section_log">
+                  <% card.logs.each do |log|%>
+                      <div class='time_log'>
+                          <% @t1 = log.created_at.strftime("%H:%M:%S") %>
+                          <% @t2 = log.end_time %>
+                          <p>計測 → </p><p>開始: <%= @t1 %></p><span>-</span><p>終了: <%= @t2 %></p>
+                          <% if @t1.present? && @t2.present? &&  %>
+                                <p>合計: <%= log.total_time%> </p>
+                          <% else %>
+                                <p>何もないよ</p>
+                          <% end %>
+                      </div>
+                  <%end%>
+              </div>
+
+              <div class="cardContents_btnArea">
+                <%= link_to '編集する', edit_list_card_path(card.list, card), class: "edit_btn" %>
+                <%= link_to '削除をする', list_card_path(card.list, card), class: "text-danger delete_btn", method: :delete, data: { confirm: "このカードを削除して大丈夫ですか?" } %>
+              </div>
+            </div>
+        <%end%>
+
+          <div class="addCard">
+            <i class="far fa-plus-square"></i>
+            <%= link_to "さらにカードを追加", new_list_card_path(list), class: "addCard_link" %>
+          </div>
+        </div>
+
+      </div>
+      <% end %> <%#-- if文のend --%> %>
+    <% end %>
+  </div>
+</div>
+
+):
+1:    <div class="topPage">
+2:      <div class="listWrapper">
+3:       <% (5).@list.each do |list| %>
+4:        <%# <% (Date.parse('2000-01-01')..Date.parse('2000-12-31')).@list.each do |list| %> %>
+5:        <% if list.find_by(:date => Date.today) %>
+6:          <div class="list">
+7:            <div class="list_header">
+8:              <h2 class="list_header_title">
+9:                  <%= list.title %>
+10:              </h2>
+11:              <div class="list_header_action">
+12:                  <%= link_to content_tag(:i, '削除', class: 'fas fa-trash'), list, method: :delete, data: { confirm: "#{list.title}を削除して大丈夫ですか?" } %>
+13:                  <%= link_to(content_tag(:i, '編集', class: 'fas fa-pen'), edit_list_path(list)) %>
+14:              </div>
+15:            </div>
+16:    
+17:            <div class="cardWrapper">
+18:            <% list.cards.each do |card|%>
+19:                <div class="card">
+20:                  <div class="head"> 
+21:                        <h3 class="card_title">
+22:                          <%= card.title %>
+23:                        </h3>
+24:                        <li class="btn_start">
+25:                                <%= form_tag("/cards/#{card.id}/log/start_time") do %>
+26:                                  　<input type="hidden" name="card_id">
+27:                                    <input type="submit" value="スタート" class="btn_small">
+28:                                <% end %>
+29:                        </li>
+30:                        <li class="btn_start">
+31:                                <%= form_tag("/cards/#{card.id}/log/end_time") do %>
+32:                                    <input type="hidden" name="card_id">
+33:                                    <input type="submit" value="ストップ" class="btn_small">
+34:                                <% end %>
+35:                        </li>
+36:                    </div>
+37:    
+38:                    <div class="section_log">
+39:                      <% card.logs.each do |log|%>
+40:                          <div class='time_log'>
+41:                              <% @t1 = log.created_at.strftime("%H:%M:%S") %>
+42:                              <% @t2 = log.end_time %>
+43:                              <p>計測 → </p><p>開始: <%= @t1 %></p><span>-</span><p>終了: <%= @t2 %></p>
+44:                              <% if @t1.present? && @t2.present? &&  %>
+45:                                    <p>合計: <%= log.total_time%> </p>
+46:                              <% else %>
+47:                                    <p>何もないよ</p>
+48:                              <% end %>
+49:                          </div>
+50:                      <%end%>
+51:                  </div>
+52:    
+53:                  <div class="cardContents_btnArea">
+54:                    <%= link_to '編集する', edit_list_card_path(card.list, card), class: "edit_btn" %>
+55:                    <%= link_to '削除をする', list_card_path(card.list, card), class: "text-danger delete_btn", method: :delete, data: { confirm: "このカードを削除して大丈夫ですか?" } %>
+56:                  </div>
+57:                </div>
+58:            <%end%>
+59:    
+60:              <div class="addCard">
+61:                <i class="far fa-plus-square"></i>
+62:                <%= link_to "さらにカードを追加", new_list_card_path(list), class: "addCard_link" %>
+63:              </div>
+64:            </div>
+65:    
+66:          </div>
+67:          <% end %> <%#-- if文のend --%> %>
+68:        <% end %>
+69:      </div>
+70:    </div>
+  
+app/views/top/index.html.erb:3: syntax error, unexpected tIVAR, expecting '('
+app/views/top/index.html.erb:3: syntax error, unexpected tIVAR, expecting '('
+app/views/top/index.html.erb:3: syntax error, unexpected tIVAR, expecting '('
+app/views/top/index.html.erb:3: syntax error, unexpected tIVAR, expecting '('
+Started GET "/" for ::1 at 2019-09-28 15:42:43 +0900
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+Processing by TopController#index as HTML
+  [1m[36mUser Load (0.7ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? ORDER BY "users"."id" ASC LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  Rendering top/index.html.erb within layouts/application
+  Rendered top/index.html.erb within layouts/application (Duration: 1.0ms | Allocations: 794)
+Completed 500 Internal Server Error in 9ms (ActiveRecord: 0.7ms | Allocations: 3714)
+
+
+  
+ActionView::SyntaxErrorInTemplate (Encountered a syntax error while rendering template: check <div class="topPage">
+  <div class="listWrapper">
+   <% @list.times[|n| n=0..6] do |list| %>
+    <%# <% (Date.parse('2000-01-01')..Date.parse('2000-12-31')).@list.each do |list| %> %>
+    <% if list.find_by(:date => Date.today) %>
+      <div class="list">
+        <div class="list_header">
+          <h2 class="list_header_title">
+              <%= list.title %>
+          </h2>
+          <div class="list_header_action">
+              <%= link_to content_tag(:i, '削除', class: 'fas fa-trash'), list, method: :delete, data: { confirm: "#{list.title}を削除して大丈夫ですか?" } %>
+              <%= link_to(content_tag(:i, '編集', class: 'fas fa-pen'), edit_list_path(list)) %>
+          </div>
+        </div>
+
+        <div class="cardWrapper">
+        <% list.cards.each do |card|%>
+            <div class="card">
+              <div class="head"> 
+                    <h3 class="card_title">
+                      <%= card.title %>
+                    </h3>
+                    <li class="btn_start">
+                            <%= form_tag("/cards/#{card.id}/log/start_time") do %>
+                              　<input type="hidden" name="card_id">
+                                <input type="submit" value="スタート" class="btn_small">
+                            <% end %>
+                    </li>
+                    <li class="btn_start">
+                            <%= form_tag("/cards/#{card.id}/log/end_time") do %>
+                                <input type="hidden" name="card_id">
+                                <input type="submit" value="ストップ" class="btn_small">
+                            <% end %>
+                    </li>
+                </div>
+
+                <div class="section_log">
+                  <% card.logs.each do |log|%>
+                      <div class='time_log'>
+                          <% @t1 = log.created_at.strftime("%H:%M:%S") %>
+                          <% @t2 = log.end_time %>
+                          <p>計測 → </p><p>開始: <%= @t1 %></p><span>-</span><p>終了: <%= @t2 %></p>
+                          <% if @t1.present? && @t2.present? &&  %>
+                                <p>合計: <%= log.total_time%> </p>
+                          <% else %>
+                                <p>何もないよ</p>
+                          <% end %>
+                      </div>
+                  <%end%>
+              </div>
+
+              <div class="cardContents_btnArea">
+                <%= link_to '編集する', edit_list_card_path(card.list, card), class: "edit_btn" %>
+                <%= link_to '削除をする', list_card_path(card.list, card), class: "text-danger delete_btn", method: :delete, data: { confirm: "このカードを削除して大丈夫ですか?" } %>
+              </div>
+            </div>
+        <%end%>
+
+          <div class="addCard">
+            <i class="far fa-plus-square"></i>
+            <%= link_to "さらにカードを追加", new_list_card_path(list), class: "addCard_link" %>
+          </div>
+        </div>
+
+      </div>
+      <% end %> <%#-- if文のend --%> %>
+    <% end %>
+  </div>
+</div>
+
+):
+1:    <div class="topPage">
+2:      <div class="listWrapper">
+3:       <% @list.times[|n| n=0..6] do |list| %>
+4:        <%# <% (Date.parse('2000-01-01')..Date.parse('2000-12-31')).@list.each do |list| %> %>
+5:        <% if list.find_by(:date => Date.today) %>
+6:          <div class="list">
+7:            <div class="list_header">
+8:              <h2 class="list_header_title">
+9:                  <%= list.title %>
+10:              </h2>
+11:              <div class="list_header_action">
+12:                  <%= link_to content_tag(:i, '削除', class: 'fas fa-trash'), list, method: :delete, data: { confirm: "#{list.title}を削除して大丈夫ですか?" } %>
+13:                  <%= link_to(content_tag(:i, '編集', class: 'fas fa-pen'), edit_list_path(list)) %>
+14:              </div>
+15:            </div>
+16:    
+17:            <div class="cardWrapper">
+18:            <% list.cards.each do |card|%>
+19:                <div class="card">
+20:                  <div class="head"> 
+21:                        <h3 class="card_title">
+22:                          <%= card.title %>
+23:                        </h3>
+24:                        <li class="btn_start">
+25:                                <%= form_tag("/cards/#{card.id}/log/start_time") do %>
+26:                                  　<input type="hidden" name="card_id">
+27:                                    <input type="submit" value="スタート" class="btn_small">
+28:                                <% end %>
+29:                        </li>
+30:                        <li class="btn_start">
+31:                                <%= form_tag("/cards/#{card.id}/log/end_time") do %>
+32:                                    <input type="hidden" name="card_id">
+33:                                    <input type="submit" value="ストップ" class="btn_small">
+34:                                <% end %>
+35:                        </li>
+36:                    </div>
+37:    
+38:                    <div class="section_log">
+39:                      <% card.logs.each do |log|%>
+40:                          <div class='time_log'>
+41:                              <% @t1 = log.created_at.strftime("%H:%M:%S") %>
+42:                              <% @t2 = log.end_time %>
+43:                              <p>計測 → </p><p>開始: <%= @t1 %></p><span>-</span><p>終了: <%= @t2 %></p>
+44:                              <% if @t1.present? && @t2.present? &&  %>
+45:                                    <p>合計: <%= log.total_time%> </p>
+46:                              <% else %>
+47:                                    <p>何もないよ</p>
+48:                              <% end %>
+49:                          </div>
+50:                      <%end%>
+51:                  </div>
+52:    
+53:                  <div class="cardContents_btnArea">
+54:                    <%= link_to '編集する', edit_list_card_path(card.list, card), class: "edit_btn" %>
+55:                    <%= link_to '削除をする', list_card_path(card.list, card), class: "text-danger delete_btn", method: :delete, data: { confirm: "このカードを削除して大丈夫ですか?" } %>
+56:                  </div>
+57:                </div>
+58:            <%end%>
+59:    
+60:              <div class="addCard">
+61:                <i class="far fa-plus-square"></i>
+62:                <%= link_to "さらにカードを追加", new_list_card_path(list), class: "addCard_link" %>
+63:              </div>
+64:            </div>
+65:    
+66:          </div>
+67:          <% end %> <%#-- if文のend --%> %>
+68:        <% end %>
+69:      </div>
+70:    </div>
+  
+app/views/top/index.html.erb:3: syntax error, unexpected '|', expecting ']'
+app/views/top/index.html.erb:3: syntax error, unexpected ']', expecting keyword_end
+app/views/top/index.html.erb:73: syntax error, unexpected keyword_end, expecting end-of-input
+app/views/top/index.html.erb:3: syntax error, unexpected '|', expecting ']'
+app/views/top/index.html.erb:3: syntax error, unexpected ']', expecting keyword_end
+app/views/top/index.html.erb:73: syntax error, unexpected keyword_end, expecting end-of-input
+app/views/top/index.html.erb:3: syntax error, unexpected '|', expecting ']'
+app/views/top/index.html.erb:3: syntax error, unexpected ']', expecting keyword_end
+app/views/top/index.html.erb:73: syntax error, unexpected keyword_end, expecting end-of-input
+app/views/top/index.html.erb:3: syntax error, unexpected '|', expecting ']'
+app/views/top/index.html.erb:3: syntax error, unexpected ']', expecting keyword_end
+app/views/top/index.html.erb:73: syntax error, unexpected keyword_end, expecting end-of-input
+Started GET "/" for ::1 at 2019-09-28 15:43:00 +0900
+Processing by TopController#index as HTML
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? ORDER BY "users"."id" ASC LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  Rendering top/index.html.erb within layouts/application
+  [1m[36mList Load (1.2ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? ORDER BY created_at ASC LIMIT ?[0m  [["user_id", 1], ["LIMIT", 11]]
+  Rendered top/index.html.erb within layouts/application (Duration: 6.1ms | Allocations: 4540)
+Completed 500 Internal Server Error in 11ms (ActiveRecord: 1.3ms | Allocations: 7432)
+
+
+  
+ActionView::Template::Error (undefined method `times' for #<List::ActiveRecord_Relation:0x00007fe40cc310c0>):
+    1: <div class="topPage">
+    2:   <div class="listWrapper">
+    3:    <% @list.times[n=0..6] do |list| %>
+    4:     <%# <% (Date.parse('2000-01-01')..Date.parse('2000-12-31')).@list.each do |list| %> %>
+    5:     <% if list.find_by(:date => Date.today) %>
+    6:       <div class="list">
+  
+app/views/top/index.html.erb:3
+Started GET "/" for ::1 at 2019-09-28 15:43:22 +0900
+Processing by TopController#index as HTML
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? ORDER BY "users"."id" ASC LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  Rendering top/index.html.erb within layouts/application
+  [1m[36mList Load (0.5ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? ORDER BY created_at ASC LIMIT ?[0m  [["user_id", 1], ["LIMIT", 11]]
+  Rendered top/index.html.erb within layouts/application (Duration: 6.5ms | Allocations: 4500)
+Completed 500 Internal Server Error in 11ms (ActiveRecord: 0.6ms | Allocations: 7392)
+
+
+  
+ActionView::Template::Error (undefined method `time' for #<List::ActiveRecord_Relation:0x00007fe4120cf028>):
+    1: <div class="topPage">
+    2:   <div class="listWrapper">
+    3:    <% @list.time[n=0..6] do |list| %>
+    4:     <%# <% (Date.parse('2000-01-01')..Date.parse('2000-12-31')).@list.each do |list| %> %>
+    5:     <% if list.find_by(:date => Date.today) %>
+    6:       <div class="list">
+  
+app/views/top/index.html.erb:3
+Started GET "/" for ::1 at 2019-09-28 15:44:56 +0900
+Processing by TopController#index as HTML
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? ORDER BY "users"."id" ASC LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  Rendering top/index.html.erb within layouts/application
+  [1m[36mList Load (0.4ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? ORDER BY created_at ASC[0m  [["user_id", 1]]
+  ↳ app/views/top/index.html.erb:3
+  Rendered top/index.html.erb within layouts/application (Duration: 8.6ms | Allocations: 3804)
+Completed 500 Internal Server Error in 13ms (ActiveRecord: 0.6ms | Allocations: 6696)
+
+
+  
+ActionView::Template::Error (undefined method `find_by' for #<List:0x00007fe4123af928>):
+    2:   <div class="listWrapper">
+    3:    <% @list.each do |list| %>
+    4:     <%# <% (Date.parse('2000-01-01')..Date.parse('2000-12-31')).@list.each do |list| %> %>
+    5:     <% if list.find_by(:date => Date.today) %>
+    6:       <div class="list">
+    7:         <div class="list_header">
+    8:           <h2 class="list_header_title">
+  
+app/views/top/index.html.erb:5
+app/views/top/index.html.erb:3
+Started GET "/" for ::1 at 2019-09-28 15:45:14 +0900
+Processing by TopController#index as HTML
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? ORDER BY "users"."id" ASC LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  Rendering top/index.html.erb within layouts/application
+  [1m[36mList Load (0.3ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? ORDER BY created_at ASC[0m  [["user_id", 1]]
+  ↳ app/views/top/index.html.erb:3
+  Rendered top/index.html.erb within layouts/application (Duration: 7.1ms | Allocations: 3806)
+Completed 500 Internal Server Error in 13ms (ActiveRecord: 0.4ms | Allocations: 6698)
+
+
+  
+ActionView::Template::Error (undefined method `where' for #<List:0x00007fe4124c5d30>):
+    2:   <div class="listWrapper">
+    3:    <% @list.each do |list| %>
+    4:     <%# <% (Date.parse('2000-01-01')..Date.parse('2000-12-31')).@list.each do |list| %> %>
+    5:     <% if list.where(:date => Date.today) %>
+    6:       <div class="list">
+    7:         <div class="list_header">
+    8:           <h2 class="list_header_title">
+  
+app/views/top/index.html.erb:5
+app/views/top/index.html.erb:3
+Started GET "/" for ::1 at 2019-09-28 15:56:38 +0900
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+Processing by TopController#index as HTML
+  [1m[36mUser Load (0.5ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? ORDER BY "users"."id" ASC LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  Rendering top/index.html.erb within layouts/application
+  [1m[36mList Load (0.7ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? ORDER BY created_at ASC[0m  [["user_id", 1]]
+  ↳ app/views/top/index.html.erb:3
+  [1m[36mCard Load (0.3ms)[0m  [1m[34mSELECT "cards".* FROM "cards" WHERE "cards"."list_id" = ?[0m  [["list_id", 1]]
+  ↳ app/views/top/index.html.erb:16
+  [1m[36mLog Load (0.4ms)[0m  [1m[34mSELECT "logs".* FROM "logs" WHERE "logs"."card_id" = ?[0m  [["card_id", 1]]
+  ↳ app/views/top/index.html.erb:37
+  [1m[36mLog Load (0.1ms)[0m  [1m[34mSELECT "logs".* FROM "logs" WHERE "logs"."card_id" = ?[0m  [["card_id", 2]]
+  ↳ app/views/top/index.html.erb:37
+  Rendered top/index.html.erb within layouts/application (Duration: 57.0ms | Allocations: 24510)
+  Rendered partial/_header.html.erb (Duration: 0.9ms | Allocations: 291)
+Completed 200 OK in 74ms (Views: 67.9ms | ActiveRecord: 3.2ms | Allocations: 29933)
+
+
+Started GET "/" for ::1 at 2019-09-28 19:49:48 +0900
+  [1m[35m (0.6ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+Processing by TopController#index as HTML
+  [1m[36mUser Load (0.7ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? ORDER BY "users"."id" ASC LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  Rendering top/index.html.erb within layouts/application
+  Rendered top/index.html.erb within layouts/application (Duration: 3.7ms | Allocations: 760)
+Completed 500 Internal Server Error in 42ms (ActiveRecord: 0.7ms | Allocations: 3672)
+
+
+  
+ActionView::SyntaxErrorInTemplate (Encountered a syntax error while rendering template: check <div class="topPage">
+  <div class="listWrapper">
+   <% @list.each do |list| %>
+    <%# <% (Date.parse('2000-01-01')..Date.parse('2000-12-31')).@list.each do |list| %> %>
+    <% if list.where(:date => Date.today) %>
+      <div class="list">
+        <div class="list_header">
+          <h2 class="list_header_title">
+              <%= list.title %>
+          </h2>
+          <div class="list_header_action">
+              <%= link_to content_tag(:i, '削除', class: 'fas fa-trash'), list, method: :delete, data: { confirm: "#{list.title}を削除して大丈夫ですか?" } %>
+              <%= link_to(content_tag(:i, '編集', class: 'fas fa-pen'), edit_list_path(list)) %>
+          </div>
+        </div>
+
+        <div class="cardWrapper">
+        <% list.cards.each do |card|%>
+            <div class="card">
+              <div class="head"> 
+                    <h3 class="card_title">
+                      <%= card.title %>
+                    </h3>
+                    <li class="btn_start">
+                            <%= form_tag("/cards/#{card.id}/log/start_time") do %>
+                              　<input type="hidden" name="card_id">
+                                <input type="submit" value="スタート" class="btn_small">
+                            <% end %>
+                    </li>
+                    <li class="btn_start">
+                            <%= form_tag("/cards/#{card.id}/log/end_time") do %>
+                                <input type="hidden" name="card_id">
+                                <input type="submit" value="ストップ" class="btn_small">
+                            <% end %>
+                    </li>
+                </div>
+
+                <div class="section_log">
+                  <% card.logs.each do |log|%>
+                      <div class='time_log'>
+                          <% @t1 = log.created_at.strftime("%H:%M:%S") %>
+                          <% @t2 = log.end_time %>
+                          <p>計測 → </p><p>開始: <%= @t1 %></p><span>-</span><p>終了: <%= @t2 %></p>
+                          <% if @t1.present? && @t2.present? &&  %>
+                                <p>合計: <%= log.total_time%> </p>
+                          <% else %>
+                                <p>何もないよ</p>
+                          <% end %>
+                      </div>
+                  <%end%>
+              </div>
+
+              <div class="cardContents_btnArea">
+                <%= link_to '編集する', edit_list_card_path(card.list, card), class: "edit_btn" %>
+                <%= link_to '削除をする', list_card_path(card.list, card), class: "text-danger delete_btn", method: :delete, data: { confirm: "このカードを削除して大丈夫ですか?" } %>
+              </div>
+            </div>
+        <%end%>
+
+          <div class="addCard">
+            <i class="far fa-plus-square"></i>
+            <%= link_to "さらにカードを追加", new_list_card_path(list), class: "addCard_link" %>
+          </div>
+        </div>
+
+      </div>
+    <% end %>
+  </div>
+</div>
+
+):
+1:    <div class="topPage">
+2:      <div class="listWrapper">
+3:       <% @list.each do |list| %>
+4:        <%# <% (Date.parse('2000-01-01')..Date.parse('2000-12-31')).@list.each do |list| %> %>
+5:        <% if list.where(:date => Date.today) %>
+6:          <div class="list">
+7:            <div class="list_header">
+8:              <h2 class="list_header_title">
+9:                  <%= list.title %>
+10:              </h2>
+11:              <div class="list_header_action">
+12:                  <%= link_to content_tag(:i, '削除', class: 'fas fa-trash'), list, method: :delete, data: { confirm: "#{list.title}を削除して大丈夫ですか?" } %>
+13:                  <%= link_to(content_tag(:i, '編集', class: 'fas fa-pen'), edit_list_path(list)) %>
+14:              </div>
+15:            </div>
+16:    
+17:            <div class="cardWrapper">
+18:            <% list.cards.each do |card|%>
+19:                <div class="card">
+20:                  <div class="head"> 
+21:                        <h3 class="card_title">
+22:                          <%= card.title %>
+23:                        </h3>
+24:                        <li class="btn_start">
+25:                                <%= form_tag("/cards/#{card.id}/log/start_time") do %>
+26:                                  　<input type="hidden" name="card_id">
+27:                                    <input type="submit" value="スタート" class="btn_small">
+28:                                <% end %>
+29:                        </li>
+30:                        <li class="btn_start">
+31:                                <%= form_tag("/cards/#{card.id}/log/end_time") do %>
+32:                                    <input type="hidden" name="card_id">
+33:                                    <input type="submit" value="ストップ" class="btn_small">
+34:                                <% end %>
+35:                        </li>
+36:                    </div>
+37:    
+38:                    <div class="section_log">
+39:                      <% card.logs.each do |log|%>
+40:                          <div class='time_log'>
+41:                              <% @t1 = log.created_at.strftime("%H:%M:%S") %>
+42:                              <% @t2 = log.end_time %>
+43:                              <p>計測 → </p><p>開始: <%= @t1 %></p><span>-</span><p>終了: <%= @t2 %></p>
+44:                              <% if @t1.present? && @t2.present? &&  %>
+45:                                    <p>合計: <%= log.total_time%> </p>
+46:                              <% else %>
+47:                                    <p>何もないよ</p>
+48:                              <% end %>
+49:                          </div>
+50:                      <%end%>
+51:                  </div>
+52:    
+53:                  <div class="cardContents_btnArea">
+54:                    <%= link_to '編集する', edit_list_card_path(card.list, card), class: "edit_btn" %>
+55:                    <%= link_to '削除をする', list_card_path(card.list, card), class: "text-danger delete_btn", method: :delete, data: { confirm: "このカードを削除して大丈夫ですか?" } %>
+56:                  </div>
+57:                </div>
+58:            <%end%>
+59:    
+60:              <div class="addCard">
+61:                <i class="far fa-plus-square"></i>
+62:                <%= link_to "さらにカードを追加", new_list_card_path(list), class: "addCard_link" %>
+63:              </div>
+64:            </div>
+65:    
+66:          </div>
+67:        <% end %>
+68:      </div>
+69:    </div>
+  
+app/views/top/index.html.erb:72: syntax error, unexpected end-of-input, expecting keyword_end
+app/views/top/index.html.erb:72: syntax error, unexpected end-of-input, expecting keyword_end
+app/views/top/index.html.erb:72: syntax error, unexpected end-of-input, expecting keyword_end
+app/views/top/index.html.erb:72: syntax error, unexpected end-of-input, expecting keyword_end
+Started GET "/" for ::1 at 2019-09-28 19:50:40 +0900
+Processing by TopController#index as HTML
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? ORDER BY "users"."id" ASC LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  Rendering top/index.html.erb within layouts/application
+  [1m[36mList Load (1.1ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? ORDER BY created_at ASC[0m  [["user_id", 1]]
+  ↳ app/views/top/index.html.erb:3
+  Rendered top/index.html.erb within layouts/application (Duration: 9.0ms | Allocations: 3798)
+Completed 500 Internal Server Error in 14ms (ActiveRecord: 1.2ms | Allocations: 6687)
+
+
+  
+ActionView::Template::Error (undefined method `where' for #<List:0x00007fe4120cfa78>):
+    1: <div class="topPage">
+    2:   <div class="listWrapper">
+    3:    <% @list.each do |list| %>
+    4:     <% if list.where(:date => Date.today) %>
+    5:       <div class="list">
+    6:         <div class="list_header">
+    7:           <h2 class="list_header_title">
+  
+app/views/top/index.html.erb:4
+app/views/top/index.html.erb:3
+Started GET "/" for ::1 at 2019-10-01 09:37:34 +0900
+  [1m[35m (1.2ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by TopController#index as HTML
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? ORDER BY "users"."id" ASC LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  Rendering top/index.html.erb within layouts/application
+  [1m[36mList Load (1.1ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? ORDER BY created_at ASC[0m  [["user_id", 1]]
+  ↳ app/views/top/index.html.erb:3
+  Rendered top/index.html.erb within layouts/application (Duration: 14.6ms | Allocations: 8630)
+Completed 500 Internal Server Error in 45ms (ActiveRecord: 2.7ms | Allocations: 24078)
+
+
+  
+ActionView::Template::Error (undefined method `where' for #<List:0x00007f83962487d8>):
+    1: <div class="topPage">
+    2:   <div class="listWrapper">
+    3:    <% @list.each do |list| %>
+    4:     <% if list.where(:date => Date.today) %>
+    5:       <div class="list">
+    6:         <div class="list_header">
+    7:           <h2 class="list_header_title">
+  
+app/views/top/index.html.erb:4
+app/views/top/index.html.erb:3
+Started GET "/" for ::1 at 2019-10-01 09:41:15 +0900
+Processing by TopController#index as HTML
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? ORDER BY "users"."id" ASC LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  Rendering top/index.html.erb within layouts/application
+  [1m[36mList Load (0.2ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? ORDER BY created_at ASC[0m  [["user_id", 1]]
+  ↳ app/views/top/index.html.erb:3
+  Rendered top/index.html.erb within layouts/application (Duration: 6.0ms | Allocations: 3763)
+Completed 500 Internal Server Error in 12ms (ActiveRecord: 0.4ms | Allocations: 6753)
+
+
+  
+ActionView::Template::Error (undefined method `where' for #<List:0x00007f839465ebf8>):
+    1: <div class="topPage">
+    2:   <div class="listWrapper">
+    3:    <% @list.each do |list| %>
+    4:     <% if list.where(:created_at => Date.today) %>
+    5:       <div class="list">
+    6:         <div class="list_header">
+    7:           <h2 class="list_header_title">
+  
+app/views/top/index.html.erb:4
+app/views/top/index.html.erb:3
+Started GET "/" for ::1 at 2019-10-01 09:42:58 +0900
+Processing by TopController#index as HTML
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? ORDER BY "users"."id" ASC LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  Rendering top/index.html.erb within layouts/application
+  [1m[36mList Load (0.2ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? ORDER BY created_at ASC[0m  [["user_id", 1]]
+  ↳ app/views/top/index.html.erb:3
+  Rendered top/index.html.erb within layouts/application (Duration: 4.7ms | Allocations: 2546)
+Completed 500 Internal Server Error in 10ms (ActiveRecord: 0.5ms | Allocations: 5457)
+
+
+  
+ActionView::Template::Error (undefined method `where' for Sun, 22 Sep 2019 06:21:28 UTC +00:00:Time):
+    1: <div class="topPage">
+    2:   <div class="listWrapper">
+    3:    <% @list.each do |list| %>
+    4:     <% if list.created_at.where(:date => Date.today) %>
+    5:       <div class="list">
+    6:         <div class="list_header">
+    7:           <h2 class="list_header_title">
+  
+app/views/top/index.html.erb:4
+app/views/top/index.html.erb:3
+Started GET "/" for ::1 at 2019-10-01 09:43:29 +0900
+Processing by TopController#index as HTML
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? ORDER BY "users"."id" ASC LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  Rendering top/index.html.erb within layouts/application
+  [1m[36mList Load (0.2ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? ORDER BY created_at ASC[0m  [["user_id", 1]]
+  ↳ app/views/top/index.html.erb:3
+  Rendered top/index.html.erb within layouts/application (Duration: 4.2ms | Allocations: 2544)
+Completed 500 Internal Server Error in 9ms (ActiveRecord: 0.4ms | Allocations: 5455)
+
+
+  
+ActionView::Template::Error (undefined method `where' for Sun, 22 Sep 2019 06:21:28 UTC +00:00:Time):
+    1: <div class="topPage">
+    2:   <div class="listWrapper">
+    3:    <% @list.each do |list| %>
+    4:     <% if list.created_at.where(:created_at => Date.today) %>
+    5:       <div class="list">
+    6:         <div class="list_header">
+    7:           <h2 class="list_header_title">
+  
+app/views/top/index.html.erb:4
+app/views/top/index.html.erb:3
+Started GET "/" for ::1 at 2019-10-01 09:46:24 +0900
+Processing by TopController#index as HTML
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? ORDER BY "users"."id" ASC LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  Rendering top/index.html.erb within layouts/application
+  [1m[36mList Load (0.2ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? ORDER BY created_at ASC[0m  [["user_id", 1]]
+  ↳ app/views/top/index.html.erb:3
+  Rendered top/index.html.erb within layouts/application (Duration: 6.6ms | Allocations: 3757)
+Completed 500 Internal Server Error in 11ms (ActiveRecord: 0.3ms | Allocations: 6681)
+
+
+  
+ActionView::Template::Error (undefined method `where' for #<List:0x00007f8396398bb0>):
+    1: <div class="topPage">
+    2:   <div class="listWrapper">
+    3:    <% @list.each do |list| %>
+    4:     <% if list.where(:date => Date.today).created_at %>
+    5:       <div class="list">
+    6:         <div class="list_header">
+    7:           <h2 class="list_header_title">
+  
+app/views/top/index.html.erb:4
+app/views/top/index.html.erb:3
+Started GET "/" for ::1 at 2019-10-01 09:46:39 +0900
+Processing by TopController#index as HTML
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? ORDER BY "users"."id" ASC LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  Rendering top/index.html.erb within layouts/application
+  [1m[36mList Load (0.2ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? ORDER BY created_at ASC[0m  [["user_id", 1]]
+  ↳ app/views/top/index.html.erb:3
+  Rendered top/index.html.erb within layouts/application (Duration: 5.3ms | Allocations: 3799)
+Completed 500 Internal Server Error in 10ms (ActiveRecord: 0.4ms | Allocations: 6723)
+
+
+  
+ActionView::Template::Error (undefined method `find' for #<List:0x00007f838f99e610>):
+    1: <div class="topPage">
+    2:   <div class="listWrapper">
+    3:    <% @list.each do |list| %>
+    4:     <% if list.find(:date => Date.today) %>
+    5:       <div class="list">
+    6:         <div class="list_header">
+    7:           <h2 class="list_header_title">
+  
+app/views/top/index.html.erb:4
+app/views/top/index.html.erb:3
+Started GET "/" for ::1 at 2019-10-01 09:49:19 +0900
+Processing by TopController#index as HTML
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? ORDER BY "users"."id" ASC LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  Rendering top/index.html.erb within layouts/application
+  [1m[36mList Load (0.3ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? ORDER BY created_at ASC[0m  [["user_id", 1]]
+  ↳ app/views/top/index.html.erb:3
+  Rendered top/index.html.erb within layouts/application (Duration: 7.9ms | Allocations: 3758)
+Completed 500 Internal Server Error in 13ms (ActiveRecord: 0.5ms | Allocations: 6665)
+
+
+  
+ActionView::Template::Error (undefined method `where' for #<List:0x00007f8396022468>):
+    1: <div class="topPage">
+    2:   <div class="listWrapper">
+    3:    <% @list.each do |list| %>
+    4:     <% if list.where('date >= ?', Date.today) %>
+    5:       <div class="list">
+    6:         <div class="list_header">
+    7:           <h2 class="list_header_title">
+  
+app/views/top/index.html.erb:4
+app/views/top/index.html.erb:3
+Started GET "/" for ::1 at 2019-10-01 09:50:08 +0900
+Processing by TopController#index as HTML
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? ORDER BY "users"."id" ASC LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  Rendering top/index.html.erb within layouts/application
+  [1m[36mList Load (0.2ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? ORDER BY created_at ASC[0m  [["user_id", 1]]
+  ↳ app/views/top/index.html.erb:3
+  Rendered top/index.html.erb within layouts/application (Duration: 6.9ms | Allocations: 3793)
+Completed 500 Internal Server Error in 12ms (ActiveRecord: 0.3ms | Allocations: 6700)
+
+
+  
+ActionView::Template::Error (undefined method `exists?' for #<List:0x00007f839621a4c8>):
+    1: <div class="topPage">
+    2:   <div class="listWrapper">
+    3:    <% @list.each do |list| %>
+    4:     <% if list.exists?(:date => Date.today) %>
+    5:       <div class="list">
+    6:         <div class="list_header">
+    7:           <h2 class="list_header_title">
+  
+app/views/top/index.html.erb:4
+app/views/top/index.html.erb:3
+Started GET "/" for ::1 at 2019-10-01 09:50:23 +0900
+Processing by TopController#index as HTML
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? ORDER BY "users"."id" ASC LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  Rendering top/index.html.erb within layouts/application
+  [1m[36mList Load (0.2ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? ORDER BY created_at ASC[0m  [["user_id", 1]]
+  ↳ app/views/top/index.html.erb:3
+  [1m[36mList Exists? (0.3ms)[0m  [1m[34mSELECT 1 AS one FROM "lists" WHERE "lists"."user_id" = ? AND "lists"."date" = ? LIMIT ?[0m  [["user_id", 1], ["date", "2019-10-01"], ["LIMIT", 1]]
+  ↳ app/views/top/index.html.erb:4
+  Rendered top/index.html.erb within layouts/application (Duration: 4.3ms | Allocations: 2132)
+Completed 500 Internal Server Error in 8ms (ActiveRecord: 0.6ms | Allocations: 5043)
+
+
+  
+ActionView::Template::Error (SQLite3::SQLException: no such column: lists.date):
+    1: <div class="topPage">
+    2:   <div class="listWrapper">
+    3:    <% @list.each do |list| %>
+    4:     <% if @list.exists?(:date => Date.today) %>
+    5:       <div class="list">
+    6:         <div class="list_header">
+    7:           <h2 class="list_header_title">
+  
+app/views/top/index.html.erb:4
+app/views/top/index.html.erb:3
+Started GET "/" for ::1 at 2019-10-01 09:50:42 +0900
+Processing by TopController#index as HTML
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? ORDER BY "users"."id" ASC LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  Rendering top/index.html.erb within layouts/application
+  [1m[36mList Load (0.2ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? ORDER BY created_at ASC[0m  [["user_id", 1]]
+  ↳ app/views/top/index.html.erb:3
+  [1m[36mCard Load (0.7ms)[0m  [1m[34mSELECT "cards".* FROM "cards" WHERE "cards"."list_id" = ?[0m  [["list_id", 1]]
+  ↳ app/views/top/index.html.erb:17
+  [1m[36mLog Load (0.6ms)[0m  [1m[34mSELECT "logs".* FROM "logs" WHERE "logs"."card_id" = ?[0m  [["card_id", 1]]
+  ↳ app/views/top/index.html.erb:38
+  [1m[36mLog Load (0.1ms)[0m  [1m[34mSELECT "logs".* FROM "logs" WHERE "logs"."card_id" = ?[0m  [["card_id", 2]]
+  ↳ app/views/top/index.html.erb:38
+  Rendered top/index.html.erb within layouts/application (Duration: 41.3ms | Allocations: 24432)
+  Rendered partial/_header.html.erb (Duration: 0.8ms | Allocations: 293)
+Completed 200 OK in 57ms (Views: 51.5ms | ActiveRecord: 2.8ms | Allocations: 29903)
+
+
+Started GET "/" for ::1 at 2019-10-01 09:58:40 +0900
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+Processing by TopController#index as HTML
+  [1m[36mUser Load (0.5ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? ORDER BY "users"."id" ASC LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  Rendering top/index.html.erb within layouts/application
+  [1m[36mList Load (0.7ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? ORDER BY created_at ASC[0m  [["user_id", 1]]
+  ↳ app/views/top/index.html.erb:3
+  [1m[36mCard Load (0.4ms)[0m  [1m[34mSELECT "cards".* FROM "cards" WHERE "cards"."list_id" = ?[0m  [["list_id", 1]]
+  ↳ app/views/top/index.html.erb:17
+  [1m[36mLog Load (0.5ms)[0m  [1m[34mSELECT "logs".* FROM "logs" WHERE "logs"."card_id" = ?[0m  [["card_id", 1]]
+  ↳ app/views/top/index.html.erb:38
+  [1m[36mLog Load (0.1ms)[0m  [1m[34mSELECT "logs".* FROM "logs" WHERE "logs"."card_id" = ?[0m  [["card_id", 2]]
+  ↳ app/views/top/index.html.erb:38
+  Rendered top/index.html.erb within layouts/application (Duration: 8.4ms | Allocations: 4568)
+  Rendered partial/_header.html.erb (Duration: 0.9ms | Allocations: 279)
+Completed 200 OK in 27ms (Views: 21.2ms | ActiveRecord: 2.2ms | Allocations: 9979)
+
+
+Started GET "/" for ::1 at 2019-10-01 10:16:26 +0900
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+Processing by TopController#index as HTML
+  [1m[36mUser Load (0.5ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? ORDER BY "users"."id" ASC LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  Rendering top/index.html.erb within layouts/application
+  [1m[36mList Load (0.7ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? ORDER BY created_at ASC[0m  [["user_id", 1]]
+  ↳ app/views/top/index.html.erb:3
+  [1m[36mCard Load (0.3ms)[0m  [1m[34mSELECT "cards".* FROM "cards" WHERE "cards"."list_id" = ?[0m  [["list_id", 1]]
+  ↳ app/views/top/index.html.erb:17
+  [1m[36mLog Load (0.4ms)[0m  [1m[34mSELECT "logs".* FROM "logs" WHERE "logs"."card_id" = ?[0m  [["card_id", 1]]
+  ↳ app/views/top/index.html.erb:38
+  [1m[36mLog Load (0.1ms)[0m  [1m[34mSELECT "logs".* FROM "logs" WHERE "logs"."card_id" = ?[0m  [["card_id", 2]]
+  ↳ app/views/top/index.html.erb:38
+  Rendered top/index.html.erb within layouts/application (Duration: 8.1ms | Allocations: 4585)
+  Rendered partial/_header.html.erb (Duration: 0.8ms | Allocations: 279)
+Completed 200 OK in 26ms (Views: 20.9ms | ActiveRecord: 1.9ms | Allocations: 9991)
+
+
+Started GET "/" for ::1 at 2019-10-01 10:16:53 +0900
+Processing by TopController#index as HTML
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? ORDER BY "users"."id" ASC LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  Rendering top/index.html.erb within layouts/application
+  [1m[36mList Load (0.2ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? ORDER BY created_at ASC[0m  [["user_id", 1]]
+  ↳ app/views/top/index.html.erb:4
+  [1m[36mCard Load (0.2ms)[0m  [1m[34mSELECT "cards".* FROM "cards" WHERE "cards"."list_id" = ?[0m  [["list_id", 1]]
+  ↳ app/views/top/index.html.erb:17
+  [1m[36mLog Load (0.4ms)[0m  [1m[34mSELECT "logs".* FROM "logs" WHERE "logs"."card_id" = ?[0m  [["card_id", 1]]
+  ↳ app/views/top/index.html.erb:38
+  [1m[36mLog Load (0.2ms)[0m  [1m[34mSELECT "logs".* FROM "logs" WHERE "logs"."card_id" = ?[0m  [["card_id", 2]]
+  ↳ app/views/top/index.html.erb:38
+  Rendered top/index.html.erb within layouts/application (Duration: 10.5ms | Allocations: 4545)
+  Rendered partial/_header.html.erb (Duration: 0.5ms | Allocations: 279)
+Completed 200 OK in 21ms (Views: 16.8ms | ActiveRecord: 1.1ms | Allocations: 9929)
+
+
+Started GET "/" for ::1 at 2019-10-01 10:17:09 +0900
+Processing by TopController#index as HTML
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? ORDER BY "users"."id" ASC LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  Rendering top/index.html.erb within layouts/application
+  [1m[36mList Load (0.2ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? ORDER BY created_at ASC[0m  [["user_id", 1]]
+  ↳ app/views/top/index.html.erb:4
+  [1m[36mCard Load (0.1ms)[0m  [1m[34mSELECT "cards".* FROM "cards" WHERE "cards"."list_id" = ?[0m  [["list_id", 1]]
+  ↳ app/views/top/index.html.erb:17
+  [1m[36mLog Load (0.1ms)[0m  [1m[34mSELECT "logs".* FROM "logs" WHERE "logs"."card_id" = ?[0m  [["card_id", 1]]
+  ↳ app/views/top/index.html.erb:38
+  [1m[36mLog Load (0.1ms)[0m  [1m[34mSELECT "logs".* FROM "logs" WHERE "logs"."card_id" = ?[0m  [["card_id", 2]]
+  ↳ app/views/top/index.html.erb:38
+  Rendered top/index.html.erb within layouts/application (Duration: 7.7ms | Allocations: 4546)
+  Rendered partial/_header.html.erb (Duration: 0.5ms | Allocations: 279)
+Completed 200 OK in 18ms (Views: 14.4ms | ActiveRecord: 0.7ms | Allocations: 9928)
+
+
+Started GET "/" for ::1 at 2019-10-01 10:26:18 +0900
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+Processing by TopController#index as HTML
+  [1m[36mUser Load (0.6ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? ORDER BY "users"."id" ASC LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  Rendering top/index.html.erb within layouts/application
+  [1m[36mList Load (0.7ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? ORDER BY created_at ASC[0m  [["user_id", 1]]
+  ↳ app/views/top/index.html.erb:3
+  [1m[36mCard Load (0.4ms)[0m  [1m[34mSELECT "cards".* FROM "cards" WHERE "cards"."list_id" = ?[0m  [["list_id", 1]]
+  ↳ app/views/top/index.html.erb:21
+  [1m[36mLog Load (0.4ms)[0m  [1m[34mSELECT "logs".* FROM "logs" WHERE "logs"."card_id" = ?[0m  [["card_id", 1]]
+  ↳ app/views/top/index.html.erb:42
+  [1m[36mLog Load (0.1ms)[0m  [1m[34mSELECT "logs".* FROM "logs" WHERE "logs"."card_id" = ?[0m  [["card_id", 2]]
+  ↳ app/views/top/index.html.erb:42
+  Rendered top/index.html.erb within layouts/application (Duration: 20.5ms | Allocations: 9331)
+  Rendered partial/_header.html.erb (Duration: 0.9ms | Allocations: 279)
+Completed 200 OK in 38ms (Views: 32.6ms | ActiveRecord: 2.2ms | Allocations: 14763)
+
+
+Started GET "/" for ::1 at 2019-10-01 10:32:43 +0900
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+Processing by TopController#index as HTML
+  [1m[36mUser Load (0.7ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? ORDER BY "users"."id" ASC LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  Rendering top/index.html.erb within layouts/application
+  [1m[36mList Load (0.6ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? ORDER BY created_at ASC[0m  [["user_id", 1]]
+  ↳ app/views/top/index.html.erb:3
+  [1m[36mCard Load (0.6ms)[0m  [1m[34mSELECT "cards".* FROM "cards" WHERE "cards"."list_id" = ?[0m  [["list_id", 1]]
+  ↳ app/views/top/index.html.erb:21
+  [1m[36mLog Load (0.5ms)[0m  [1m[34mSELECT "logs".* FROM "logs" WHERE "logs"."card_id" = ?[0m  [["card_id", 1]]
+  ↳ app/views/top/index.html.erb:42
+  [1m[36mLog Load (0.1ms)[0m  [1m[34mSELECT "logs".* FROM "logs" WHERE "logs"."card_id" = ?[0m  [["card_id", 2]]
+  ↳ app/views/top/index.html.erb:42
+  Rendered top/index.html.erb within layouts/application (Duration: 15.5ms | Allocations: 9033)
+  Rendered partial/_header.html.erb (Duration: 0.8ms | Allocations: 279)
+Completed 200 OK in 36ms (Views: 30.4ms | ActiveRecord: 2.5ms | Allocations: 14442)
+
+
+Started GET "/" for ::1 at 2019-10-01 10:32:48 +0900
+Processing by TopController#index as HTML
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? ORDER BY "users"."id" ASC LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  Rendering top/index.html.erb within layouts/application
+  [1m[36mList Load (0.2ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? ORDER BY created_at ASC[0m  [["user_id", 1]]
+  ↳ app/views/top/index.html.erb:3
+  [1m[36mCard Load (0.1ms)[0m  [1m[34mSELECT "cards".* FROM "cards" WHERE "cards"."list_id" = ?[0m  [["list_id", 1]]
+  ↳ app/views/top/index.html.erb:21
+  [1m[36mLog Load (0.1ms)[0m  [1m[34mSELECT "logs".* FROM "logs" WHERE "logs"."card_id" = ?[0m  [["card_id", 1]]
+  ↳ app/views/top/index.html.erb:42
+  [1m[36mLog Load (0.1ms)[0m  [1m[34mSELECT "logs".* FROM "logs" WHERE "logs"."card_id" = ?[0m  [["card_id", 2]]
+  ↳ app/views/top/index.html.erb:42
+  Rendered top/index.html.erb within layouts/application (Duration: 12.1ms | Allocations: 8190)
+  Rendered partial/_header.html.erb (Duration: 0.2ms | Allocations: 98)
+Completed 200 OK in 21ms (Views: 17.1ms | ActiveRecord: 0.8ms | Allocations: 12081)
+
+
+Started GET "/" for ::1 at 2019-10-01 10:34:10 +0900
+Processing by TopController#index as HTML
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? ORDER BY "users"."id" ASC LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  Rendering top/index.html.erb within layouts/application
+  [1m[36mList Load (0.2ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? ORDER BY created_at ASC[0m  [["user_id", 1]]
+  ↳ app/views/top/index.html.erb:3
+  Rendered top/index.html.erb within layouts/application (Duration: 2.2ms | Allocations: 1544)
+Completed 500 Internal Server Error in 6ms (ActiveRecord: 0.3ms | Allocations: 4457)
+
+
+  
+ActionView::Template::Error (comparison of Symbol with Date failed):
+     5:     <%7.times do%>
+     6:       <%yesterday = idx += 1%>
+     7:       <%today = Date.today - yesterday%>
+     8:       <% if @list.where(:created_at >= today) %>
+     9:         <div class="list">
+    10:           <div class="list_header">
+    11:             <h2 class="list_header_title">
+  
+app/views/top/index.html.erb:8:in `>='
+app/views/top/index.html.erb:8
+app/views/top/index.html.erb:5:in `times'
+app/views/top/index.html.erb:5
+app/views/top/index.html.erb:3
+Started GET "/" for ::1 at 2019-10-01 10:34:19 +0900
+Processing by TopController#index as HTML
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? ORDER BY "users"."id" ASC LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  Rendering top/index.html.erb within layouts/application
+  Rendered top/index.html.erb within layouts/application (Duration: 1.0ms | Allocations: 846)
+Completed 500 Internal Server Error in 6ms (ActiveRecord: 0.1ms | Allocations: 3759)
+
+
+  
+ActionView::SyntaxErrorInTemplate (Encountered a syntax error while rendering template: check <div class="topPage">
+  <div class="listWrapper">
+  <% @list.each do |list| %>
+    <%idx = 0%>
+    <%7.times do%>
+      <%yesterday = idx += 1%>
+      <%today = Date.today - yesterday%>
+      <% if @list.where(:created_at =< today) %>
+        <div class="list">
+          <div class="list_header">
+            <h2 class="list_header_title">
+                <%= list.title %>
+            </h2>
+            <div class="list_header_action">
+                <%= link_to content_tag(:i, '削除', class: 'fas fa-trash'), list, method: :delete, data: { confirm: "#{list.title}を削除して大丈夫ですか?" } %>
+                <%= link_to(content_tag(:i, '編集', class: 'fas fa-pen'), edit_list_path(list)) %>
+            </div>
+          </div>
+
+          <div class="cardWrapper">
+          <% list.cards.each do |card|%>
+              <div class="card">
+                <div class="head"> 
+                      <h3 class="card_title">
+                        <%= card.title %>
+                      </h3>
+                      <li class="btn_start">
+                              <%= form_tag("/cards/#{card.id}/log/start_time") do %>
+                                　<input type="hidden" name="card_id">
+                                  <input type="submit" value="スタート" class="btn_small">
+                              <% end %>
+                      </li>
+                      <li class="btn_start">
+                              <%= form_tag("/cards/#{card.id}/log/end_time") do %>
+                                  <input type="hidden" name="card_id">
+                                  <input type="submit" value="ストップ" class="btn_small">
+                              <% end %>
+                      </li>
+                  </div>
+
+                  <div class="section_log">
+                    <% card.logs.each do |log|%>
+                        <div class='time_log'>
+                            <% @t1 = log.created_at.strftime("%H:%M:%S") %>
+                            <% @t2 = log.end_time %>
+                            <p>計測 → </p><p>開始: <%= @t1 %></p><span>-</span><p>終了: <%= @t2 %></p>
+                            <% if @t1.present? && @t2.present? &&  %>
+                                  <p>合計: <%= log.total_time%> </p>
+                            <% else %>
+                                  <p>何もないよ</p>
+                            <% end %>
+                        </div>
+                    <%end%>
+                </div>
+
+                <div class="cardContents_btnArea">
+                  <%= link_to '編集する', edit_list_card_path(card.list, card), class: "edit_btn" %>
+                  <%= link_to '削除をする', list_card_path(card.list, card), class: "text-danger delete_btn", method: :delete, data: { confirm: "このカードを削除して大丈夫ですか?" } %>
+                </div>
+              </div>
+          <%end%> <!-- end:list.card -->
+
+            <div class="addCard">
+              <i class="far fa-plus-square"></i>
+              <%= link_to "さらにカードを追加", new_list_card_path(list), class: "addCard_link" %>
+            </div>
+          </div>
+
+        </div>
+
+        <%else%>
+          <p>何もないよ</p>
+      <% end %><!-- if:@list.where -->
+    <% end %><!-- 7.times -->
+  <% end %>
+  </div>
+</div>
+
+):
+1:    <div class="topPage">
+2:      <div class="listWrapper">
+3:      <% @list.each do |list| %>
+4:        <%idx = 0%>
+5:        <%7.times do%>
+6:          <%yesterday = idx += 1%>
+7:          <%today = Date.today - yesterday%>
+8:          <% if @list.where(:created_at =< today) %>
+9:            <div class="list">
+10:              <div class="list_header">
+11:                <h2 class="list_header_title">
+12:                    <%= list.title %>
+13:                </h2>
+14:                <div class="list_header_action">
+15:                    <%= link_to content_tag(:i, '削除', class: 'fas fa-trash'), list, method: :delete, data: { confirm: "#{list.title}を削除して大丈夫ですか?" } %>
+16:                    <%= link_to(content_tag(:i, '編集', class: 'fas fa-pen'), edit_list_path(list)) %>
+17:                </div>
+18:              </div>
+19:    
+20:              <div class="cardWrapper">
+21:              <% list.cards.each do |card|%>
+22:                  <div class="card">
+23:                    <div class="head"> 
+24:                          <h3 class="card_title">
+25:                            <%= card.title %>
+26:                          </h3>
+27:                          <li class="btn_start">
+28:                                  <%= form_tag("/cards/#{card.id}/log/start_time") do %>
+29:                                    　<input type="hidden" name="card_id">
+30:                                      <input type="submit" value="スタート" class="btn_small">
+31:                                  <% end %>
+32:                          </li>
+33:                          <li class="btn_start">
+34:                                  <%= form_tag("/cards/#{card.id}/log/end_time") do %>
+35:                                      <input type="hidden" name="card_id">
+36:                                      <input type="submit" value="ストップ" class="btn_small">
+37:                                  <% end %>
+38:                          </li>
+39:                      </div>
+40:    
+41:                      <div class="section_log">
+42:                        <% card.logs.each do |log|%>
+43:                            <div class='time_log'>
+44:                                <% @t1 = log.created_at.strftime("%H:%M:%S") %>
+45:                                <% @t2 = log.end_time %>
+46:                                <p>計測 → </p><p>開始: <%= @t1 %></p><span>-</span><p>終了: <%= @t2 %></p>
+47:                                <% if @t1.present? && @t2.present? &&  %>
+48:                                      <p>合計: <%= log.total_time%> </p>
+49:                                <% else %>
+50:                                      <p>何もないよ</p>
+51:                                <% end %>
+52:                            </div>
+53:                        <%end%>
+54:                    </div>
+55:    
+56:                    <div class="cardContents_btnArea">
+57:                      <%= link_to '編集する', edit_list_card_path(card.list, card), class: "edit_btn" %>
+58:                      <%= link_to '削除をする', list_card_path(card.list, card), class: "text-danger delete_btn", method: :delete, data: { confirm: "このカードを削除して大丈夫ですか?" } %>
+59:                    </div>
+60:                  </div>
+61:              <%end%> <!-- end:list.card -->
+62:    
+63:                <div class="addCard">
+64:                  <i class="far fa-plus-square"></i>
+65:                  <%= link_to "さらにカードを追加", new_list_card_path(list), class: "addCard_link" %>
+66:                </div>
+67:              </div>
+68:    
+69:            </div>
+70:    
+71:            <%else%>
+72:              <p>何もないよ</p>
+73:          <% end %><!-- if:@list.where -->
+74:        <% end %><!-- 7.times -->
+75:      <% end %>
+76:      </div>
+77:    </div>
+  
+app/views/top/index.html.erb:8: syntax error, unexpected '=', expecting ')'
+app/views/top/index.html.erb:75: syntax error, unexpected keyword_end, expecting end-of-input
+app/views/top/index.html.erb:8: syntax error, unexpected '=', expecting ')'
+app/views/top/index.html.erb:75: syntax error, unexpected keyword_end, expecting end-of-input
+app/views/top/index.html.erb:8: syntax error, unexpected '=', expecting ')'
+app/views/top/index.html.erb:75: syntax error, unexpected keyword_end, expecting end-of-input
+app/views/top/index.html.erb:8: syntax error, unexpected '=', expecting ')'
+app/views/top/index.html.erb:75: syntax error, unexpected keyword_end, expecting end-of-input
+Started GET "/" for ::1 at 2019-10-01 10:34:28 +0900
+Processing by TopController#index as HTML
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? ORDER BY "users"."id" ASC LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  Rendering top/index.html.erb within layouts/application
+  [1m[36mList Load (0.2ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? ORDER BY created_at ASC[0m  [["user_id", 1]]
+  ↳ app/views/top/index.html.erb:3
+  [1m[36mCard Load (0.1ms)[0m  [1m[34mSELECT "cards".* FROM "cards" WHERE "cards"."list_id" = ?[0m  [["list_id", 1]]
+  ↳ app/views/top/index.html.erb:21
+  [1m[36mLog Load (0.2ms)[0m  [1m[34mSELECT "logs".* FROM "logs" WHERE "logs"."card_id" = ?[0m  [["card_id", 1]]
+  ↳ app/views/top/index.html.erb:42
+  [1m[36mLog Load (0.1ms)[0m  [1m[34mSELECT "logs".* FROM "logs" WHERE "logs"."card_id" = ?[0m  [["card_id", 2]]
+  ↳ app/views/top/index.html.erb:42
+  Rendered top/index.html.erb within layouts/application (Duration: 12.5ms | Allocations: 9314)
+  Rendered partial/_header.html.erb (Duration: 1.1ms | Allocations: 291)
+Completed 200 OK in 26ms (Views: 21.0ms | ActiveRecord: 0.8ms | Allocations: 14732)
+
+
+Started GET "/" for ::1 at 2019-10-01 10:45:33 +0900
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+Processing by TopController#index as HTML
+  [1m[36mUser Load (0.5ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? ORDER BY "users"."id" ASC LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  Rendering top/index.html.erb within layouts/application
+  [1m[36mList Load (0.7ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? ORDER BY created_at ASC[0m  [["user_id", 1]]
+  ↳ app/views/top/index.html.erb:3
+  [1m[36mCard Load (0.4ms)[0m  [1m[34mSELECT "cards".* FROM "cards" WHERE "cards"."list_id" = ?[0m  [["list_id", 1]]
+  ↳ app/views/top/index.html.erb:21
+  [1m[36mLog Load (0.5ms)[0m  [1m[34mSELECT "logs".* FROM "logs" WHERE "logs"."card_id" = ?[0m  [["card_id", 1]]
+  ↳ app/views/top/index.html.erb:42
+  [1m[36mLog Load (0.1ms)[0m  [1m[34mSELECT "logs".* FROM "logs" WHERE "logs"."card_id" = ?[0m  [["card_id", 2]]
+  ↳ app/views/top/index.html.erb:42
+  Rendered top/index.html.erb within layouts/application (Duration: 13.8ms | Allocations: 9304)
+  Rendered partial/_header.html.erb (Duration: 0.8ms | Allocations: 279)
+Completed 200 OK in 32ms (Views: 27.0ms | ActiveRecord: 2.3ms | Allocations: 14711)
+
+
+Started GET "/" for ::1 at 2019-10-01 10:45:35 +0900
+Processing by TopController#index as HTML
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? ORDER BY "users"."id" ASC LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  Rendering top/index.html.erb within layouts/application
+  [1m[36mList Load (0.3ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? ORDER BY created_at ASC[0m  [["user_id", 1]]
+  ↳ app/views/top/index.html.erb:3
+  [1m[36mCard Load (0.3ms)[0m  [1m[34mSELECT "cards".* FROM "cards" WHERE "cards"."list_id" = ?[0m  [["list_id", 1]]
+  ↳ app/views/top/index.html.erb:21
+  [1m[36mLog Load (0.2ms)[0m  [1m[34mSELECT "logs".* FROM "logs" WHERE "logs"."card_id" = ?[0m  [["card_id", 1]]
+  ↳ app/views/top/index.html.erb:42
+  [1m[36mLog Load (0.1ms)[0m  [1m[34mSELECT "logs".* FROM "logs" WHERE "logs"."card_id" = ?[0m  [["card_id", 2]]
+  ↳ app/views/top/index.html.erb:42
+  Rendered top/index.html.erb within layouts/application (Duration: 14.8ms | Allocations: 8462)
+  Rendered partial/_header.html.erb (Duration: 0.3ms | Allocations: 98)
+Completed 200 OK in 23ms (Views: 19.7ms | ActiveRecord: 1.0ms | Allocations: 12363)
+
+
+Started GET "/" for ::1 at 2019-10-01 10:45:36 +0900
+Processing by TopController#index as HTML
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? ORDER BY "users"."id" ASC LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  Rendering top/index.html.erb within layouts/application
+  [1m[36mList Load (0.2ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? ORDER BY created_at ASC[0m  [["user_id", 1]]
+  ↳ app/views/top/index.html.erb:3
+  [1m[36mCard Load (0.1ms)[0m  [1m[34mSELECT "cards".* FROM "cards" WHERE "cards"."list_id" = ?[0m  [["list_id", 1]]
+  ↳ app/views/top/index.html.erb:21
+  [1m[36mLog Load (0.1ms)[0m  [1m[34mSELECT "logs".* FROM "logs" WHERE "logs"."card_id" = ?[0m  [["card_id", 1]]
+  ↳ app/views/top/index.html.erb:42
+  [1m[36mLog Load (0.1ms)[0m  [1m[34mSELECT "logs".* FROM "logs" WHERE "logs"."card_id" = ?[0m  [["card_id", 2]]
+  ↳ app/views/top/index.html.erb:42
+  Rendered top/index.html.erb within layouts/application (Duration: 10.7ms | Allocations: 8454)
+  Rendered partial/_header.html.erb (Duration: 0.2ms | Allocations: 98)
+Completed 200 OK in 18ms (Views: 14.9ms | ActiveRecord: 0.6ms | Allocations: 12353)
+
+
+Started GET "/" for ::1 at 2019-10-01 10:45:53 +0900
+Processing by TopController#index as HTML
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? ORDER BY "users"."id" ASC LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  Rendering top/index.html.erb within layouts/application
+  [1m[36mList Load (0.2ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? ORDER BY created_at ASC[0m  [["user_id", 1]]
+  ↳ app/views/top/index.html.erb:3
+  [1m[36mList Load (0.1ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? AND "lists"."id" = ? ORDER BY created_at ASC LIMIT ?[0m  [["user_id", 1], ["id", nil], ["LIMIT", 1]]
+  ↳ app/views/top/index.html.erb:8
+  Rendered top/index.html.erb within layouts/application (Duration: 3.3ms | Allocations: 2320)
+Completed 500 Internal Server Error in 8ms (ActiveRecord: 0.5ms | Allocations: 5219)
+
+
+  
+ActionView::Template::Error (Couldn't find List with 'id'={:created_at=>1977} [WHERE "lists"."user_id" = ?]):
+     5:     <%7.times do%>
+     6:       <%yesterday = idx += 1%>
+     7:       <%today = Date.today - yesterday%>
+     8:       <% if @list.find(:created_at => 2011-05-29) %>
+     9:         <div class="list">
+    10:           <div class="list_header">
+    11:             <h2 class="list_header_title">
+  
+app/views/top/index.html.erb:8
+app/views/top/index.html.erb:5:in `times'
+app/views/top/index.html.erb:5
+app/views/top/index.html.erb:3
+Started GET "/" for ::1 at 2019-10-01 10:46:19 +0900
+Processing by TopController#index as HTML
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? ORDER BY "users"."id" ASC LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  Rendering top/index.html.erb within layouts/application
+  [1m[36mList Load (0.2ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? ORDER BY created_at ASC[0m  [["user_id", 1]]
+  ↳ app/views/top/index.html.erb:3
+  [1m[36mList Load (0.1ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? AND "lists"."created_at" = ? ORDER BY created_at ASC LIMIT ?[0m  [["user_id", 1], ["created_at", 1977], ["LIMIT", 1]]
+  ↳ app/views/top/index.html.erb:8
+  [1m[36mCACHE List Load (0.0ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? AND "lists"."created_at" = ? ORDER BY created_at ASC LIMIT ?[0m  [["user_id", 1], ["created_at", 1977], ["LIMIT", 1]]
+  ↳ app/views/top/index.html.erb:8
+  [1m[36mCACHE List Load (0.0ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? AND "lists"."created_at" = ? ORDER BY created_at ASC LIMIT ?[0m  [["user_id", 1], ["created_at", 1977], ["LIMIT", 1]]
+  ↳ app/views/top/index.html.erb:8
+  [1m[36mCACHE List Load (0.0ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? AND "lists"."created_at" = ? ORDER BY created_at ASC LIMIT ?[0m  [["user_id", 1], ["created_at", 1977], ["LIMIT", 1]]
+  ↳ app/views/top/index.html.erb:8
+  [1m[36mCACHE List Load (0.0ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? AND "lists"."created_at" = ? ORDER BY created_at ASC LIMIT ?[0m  [["user_id", 1], ["created_at", 1977], ["LIMIT", 1]]
+  ↳ app/views/top/index.html.erb:8
+  [1m[36mCACHE List Load (0.0ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? AND "lists"."created_at" = ? ORDER BY created_at ASC LIMIT ?[0m  [["user_id", 1], ["created_at", 1977], ["LIMIT", 1]]
+  ↳ app/views/top/index.html.erb:8
+  [1m[36mCACHE List Load (0.0ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? AND "lists"."created_at" = ? ORDER BY created_at ASC LIMIT ?[0m  [["user_id", 1], ["created_at", 1977], ["LIMIT", 1]]
+  ↳ app/views/top/index.html.erb:8
+  Rendered top/index.html.erb within layouts/application (Duration: 7.7ms | Allocations: 5961)
+  Rendered partial/_header.html.erb (Duration: 0.7ms | Allocations: 313)
+Completed 200 OK in 20ms (Views: 15.1ms | ActiveRecord: 0.6ms | Allocations: 11392)
+
+
+Started GET "/" for ::1 at 2019-10-01 10:46:32 +0900
+Processing by TopController#index as HTML
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? ORDER BY "users"."id" ASC LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  Rendering top/index.html.erb within layouts/application
+  [1m[36mList Load (0.2ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? ORDER BY created_at ASC[0m  [["user_id", 1]]
+  ↳ app/views/top/index.html.erb:3
+  [1m[36mList Load (0.1ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? AND "lists"."created_at" = ? ORDER BY created_at ASC LIMIT ?[0m  [["user_id", 1], ["created_at", "2019-09-30"], ["LIMIT", 1]]
+  ↳ app/views/top/index.html.erb:8
+  [1m[36mList Load (0.2ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? AND "lists"."created_at" = ? ORDER BY created_at ASC LIMIT ?[0m  [["user_id", 1], ["created_at", "2019-09-29"], ["LIMIT", 1]]
+  ↳ app/views/top/index.html.erb:8
+  [1m[36mList Load (0.1ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? AND "lists"."created_at" = ? ORDER BY created_at ASC LIMIT ?[0m  [["user_id", 1], ["created_at", "2019-09-28"], ["LIMIT", 1]]
+  ↳ app/views/top/index.html.erb:8
+  [1m[36mList Load (0.1ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? AND "lists"."created_at" = ? ORDER BY created_at ASC LIMIT ?[0m  [["user_id", 1], ["created_at", "2019-09-27"], ["LIMIT", 1]]
+  ↳ app/views/top/index.html.erb:8
+  [1m[36mList Load (0.1ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? AND "lists"."created_at" = ? ORDER BY created_at ASC LIMIT ?[0m  [["user_id", 1], ["created_at", "2019-09-26"], ["LIMIT", 1]]
+  ↳ app/views/top/index.html.erb:8
+  [1m[36mList Load (0.1ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? AND "lists"."created_at" = ? ORDER BY created_at ASC LIMIT ?[0m  [["user_id", 1], ["created_at", "2019-09-25"], ["LIMIT", 1]]
+  ↳ app/views/top/index.html.erb:8
+  [1m[36mList Load (0.1ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? AND "lists"."created_at" = ? ORDER BY created_at ASC LIMIT ?[0m  [["user_id", 1], ["created_at", "2019-09-24"], ["LIMIT", 1]]
+  ↳ app/views/top/index.html.erb:8
+  Rendered top/index.html.erb within layouts/application (Duration: 8.8ms | Allocations: 6368)
+  Rendered partial/_header.html.erb (Duration: 0.6ms | Allocations: 301)
+Completed 200 OK in 21ms (Views: 15.8ms | ActiveRecord: 1.3ms | Allocations: 11774)
+
+
+Started GET "/list/new" for ::1 at 2019-10-01 10:46:35 +0900
+Processing by ListController#new as HTML
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? ORDER BY "users"."id" ASC LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  Rendering list/new.html.erb within layouts/application
+  Rendered list/new.html.erb within layouts/application (Duration: 13.5ms | Allocations: 3868)
+  Rendered partial/_header.html.erb (Duration: 0.2ms | Allocations: 102)
+Completed 200 OK in 23ms (Views: 19.5ms | ActiveRecord: 0.2ms | Allocations: 8396)
+
+
+Started POST "/list" for ::1 at 2019-10-01 10:46:41 +0900
+Processing by ListController#create as JS
+  Parameters: {"authenticity_token"=>"q8dzx9EIyOwZysFREngT+yadA/bHxyaXKAOQFAOvMjFHF2Zyvg2e40RhNbXfdfY5LRcPdoaxD1Ij7hxJ5SOG/w==", "list"=>{"title"=>"10/1のリスト"}, "commit"=>"作成"}
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? ORDER BY "users"."id" ASC LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  ↳ app/controllers/list_controller.rb:8:in `create'
+  [1m[36mList Create (1.1ms)[0m  [1m[32mINSERT INTO "lists" ("title", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["title", "10/1のリスト"], ["user_id", 1], ["created_at", "2019-10-01 01:46:41.040599"], ["updated_at", "2019-10-01 01:46:41.040599"]]
+  ↳ app/controllers/list_controller.rb:8:in `create'
+  [1m[35m (0.8ms)[0m  [1m[36mcommit transaction[0m
+  ↳ app/controllers/list_controller.rb:8:in `create'
+Redirected to http://localhost:3000/
+Completed 200 OK in 10ms (ActiveRecord: 2.2ms | Allocations: 4465)
+
+
+Started GET "/" for ::1 at 2019-10-01 10:46:41 +0900
+Processing by TopController#index as HTML
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? ORDER BY "users"."id" ASC LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  Rendering top/index.html.erb within layouts/application
+  [1m[36mList Load (0.2ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? ORDER BY created_at ASC[0m  [["user_id", 1]]
+  ↳ app/views/top/index.html.erb:3
+  [1m[36mList Load (0.8ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? AND "lists"."created_at" = ? ORDER BY created_at ASC LIMIT ?[0m  [["user_id", 1], ["created_at", "2019-09-30"], ["LIMIT", 1]]
+  ↳ app/views/top/index.html.erb:8
+  [1m[36mList Load (0.3ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? AND "lists"."created_at" = ? ORDER BY created_at ASC LIMIT ?[0m  [["user_id", 1], ["created_at", "2019-09-29"], ["LIMIT", 1]]
+  ↳ app/views/top/index.html.erb:8
+  [1m[36mList Load (0.3ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? AND "lists"."created_at" = ? ORDER BY created_at ASC LIMIT ?[0m  [["user_id", 1], ["created_at", "2019-09-28"], ["LIMIT", 1]]
+  ↳ app/views/top/index.html.erb:8
+  [1m[36mList Load (0.4ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? AND "lists"."created_at" = ? ORDER BY created_at ASC LIMIT ?[0m  [["user_id", 1], ["created_at", "2019-09-27"], ["LIMIT", 1]]
+  ↳ app/views/top/index.html.erb:8
+  [1m[36mList Load (0.5ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? AND "lists"."created_at" = ? ORDER BY created_at ASC LIMIT ?[0m  [["user_id", 1], ["created_at", "2019-09-26"], ["LIMIT", 1]]
+  ↳ app/views/top/index.html.erb:8
+  [1m[36mList Load (0.3ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? AND "lists"."created_at" = ? ORDER BY created_at ASC LIMIT ?[0m  [["user_id", 1], ["created_at", "2019-09-25"], ["LIMIT", 1]]
+  ↳ app/views/top/index.html.erb:8
+  [1m[36mList Load (0.2ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? AND "lists"."created_at" = ? ORDER BY created_at ASC LIMIT ?[0m  [["user_id", 1], ["created_at", "2019-09-24"], ["LIMIT", 1]]
+  ↳ app/views/top/index.html.erb:8
+  [1m[36mCACHE List Load (0.0ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? AND "lists"."created_at" = ? ORDER BY created_at ASC LIMIT ?[0m  [["user_id", 1], ["created_at", "2019-09-30"], ["LIMIT", 1]]
+  ↳ app/views/top/index.html.erb:8
+  [1m[36mCACHE List Load (0.0ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? AND "lists"."created_at" = ? ORDER BY created_at ASC LIMIT ?[0m  [["user_id", 1], ["created_at", "2019-09-29"], ["LIMIT", 1]]
+  ↳ app/views/top/index.html.erb:8
+  [1m[36mCACHE List Load (0.0ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? AND "lists"."created_at" = ? ORDER BY created_at ASC LIMIT ?[0m  [["user_id", 1], ["created_at", "2019-09-28"], ["LIMIT", 1]]
+  ↳ app/views/top/index.html.erb:8
+  [1m[36mCACHE List Load (0.0ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? AND "lists"."created_at" = ? ORDER BY created_at ASC LIMIT ?[0m  [["user_id", 1], ["created_at", "2019-09-27"], ["LIMIT", 1]]
+  ↳ app/views/top/index.html.erb:8
+  [1m[36mCACHE List Load (0.0ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? AND "lists"."created_at" = ? ORDER BY created_at ASC LIMIT ?[0m  [["user_id", 1], ["created_at", "2019-09-26"], ["LIMIT", 1]]
+  ↳ app/views/top/index.html.erb:8
+  [1m[36mCACHE List Load (0.0ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? AND "lists"."created_at" = ? ORDER BY created_at ASC LIMIT ?[0m  [["user_id", 1], ["created_at", "2019-09-25"], ["LIMIT", 1]]
+  ↳ app/views/top/index.html.erb:8
+  [1m[36mCACHE List Load (0.0ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? AND "lists"."created_at" = ? ORDER BY created_at ASC LIMIT ?[0m  [["user_id", 1], ["created_at", "2019-09-24"], ["LIMIT", 1]]
+  ↳ app/views/top/index.html.erb:8
+  Rendered top/index.html.erb within layouts/application (Duration: 26.3ms | Allocations: 10060)
+  Rendered partial/_header.html.erb (Duration: 0.2ms | Allocations: 127)
+Completed 200 OK in 36ms (Views: 28.2ms | ActiveRecord: 3.4ms | Allocations: 13991)
+
+
+Started GET "/" for ::1 at 2019-10-01 10:46:42 +0900
+Processing by TopController#index as HTML
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? ORDER BY "users"."id" ASC LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  Rendering top/index.html.erb within layouts/application
+  [1m[36mList Load (0.3ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? ORDER BY created_at ASC[0m  [["user_id", 1]]
+  ↳ app/views/top/index.html.erb:3
+  [1m[36mList Load (0.1ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? AND "lists"."created_at" = ? ORDER BY created_at ASC LIMIT ?[0m  [["user_id", 1], ["created_at", "2019-09-30"], ["LIMIT", 1]]
+  ↳ app/views/top/index.html.erb:8
+  [1m[36mList Load (0.2ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? AND "lists"."created_at" = ? ORDER BY created_at ASC LIMIT ?[0m  [["user_id", 1], ["created_at", "2019-09-29"], ["LIMIT", 1]]
+  ↳ app/views/top/index.html.erb:8
+  [1m[36mList Load (0.1ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? AND "lists"."created_at" = ? ORDER BY created_at ASC LIMIT ?[0m  [["user_id", 1], ["created_at", "2019-09-28"], ["LIMIT", 1]]
+  ↳ app/views/top/index.html.erb:8
+  [1m[36mList Load (0.1ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? AND "lists"."created_at" = ? ORDER BY created_at ASC LIMIT ?[0m  [["user_id", 1], ["created_at", "2019-09-27"], ["LIMIT", 1]]
+  ↳ app/views/top/index.html.erb:8
+  [1m[36mList Load (0.2ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? AND "lists"."created_at" = ? ORDER BY created_at ASC LIMIT ?[0m  [["user_id", 1], ["created_at", "2019-09-26"], ["LIMIT", 1]]
+  ↳ app/views/top/index.html.erb:8
+  [1m[36mList Load (0.2ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? AND "lists"."created_at" = ? ORDER BY created_at ASC LIMIT ?[0m  [["user_id", 1], ["created_at", "2019-09-25"], ["LIMIT", 1]]
+  ↳ app/views/top/index.html.erb:8
+  [1m[36mList Load (0.1ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? AND "lists"."created_at" = ? ORDER BY created_at ASC LIMIT ?[0m  [["user_id", 1], ["created_at", "2019-09-24"], ["LIMIT", 1]]
+  ↳ app/views/top/index.html.erb:8
+  [1m[36mCACHE List Load (0.0ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? AND "lists"."created_at" = ? ORDER BY created_at ASC LIMIT ?[0m  [["user_id", 1], ["created_at", "2019-09-30"], ["LIMIT", 1]]
+  ↳ app/views/top/index.html.erb:8
+  [1m[36mCACHE List Load (0.0ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? AND "lists"."created_at" = ? ORDER BY created_at ASC LIMIT ?[0m  [["user_id", 1], ["created_at", "2019-09-29"], ["LIMIT", 1]]
+  ↳ app/views/top/index.html.erb:8
+  [1m[36mCACHE List Load (0.0ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? AND "lists"."created_at" = ? ORDER BY created_at ASC LIMIT ?[0m  [["user_id", 1], ["created_at", "2019-09-28"], ["LIMIT", 1]]
+  ↳ app/views/top/index.html.erb:8
+  [1m[36mCACHE List Load (0.0ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? AND "lists"."created_at" = ? ORDER BY created_at ASC LIMIT ?[0m  [["user_id", 1], ["created_at", "2019-09-27"], ["LIMIT", 1]]
+  ↳ app/views/top/index.html.erb:8
+  [1m[36mCACHE List Load (0.0ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? AND "lists"."created_at" = ? ORDER BY created_at ASC LIMIT ?[0m  [["user_id", 1], ["created_at", "2019-09-26"], ["LIMIT", 1]]
+  ↳ app/views/top/index.html.erb:8
+  [1m[36mCACHE List Load (0.0ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? AND "lists"."created_at" = ? ORDER BY created_at ASC LIMIT ?[0m  [["user_id", 1], ["created_at", "2019-09-25"], ["LIMIT", 1]]
+  ↳ app/views/top/index.html.erb:8
+  [1m[36mCACHE List Load (0.0ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? AND "lists"."created_at" = ? ORDER BY created_at ASC LIMIT ?[0m  [["user_id", 1], ["created_at", "2019-09-24"], ["LIMIT", 1]]
+  ↳ app/views/top/index.html.erb:8
+  Rendered top/index.html.erb within layouts/application (Duration: 14.1ms | Allocations: 10059)
+  Rendered partial/_header.html.erb (Duration: 0.2ms | Allocations: 120)
+Completed 200 OK in 22ms (Views: 18.4ms | ActiveRecord: 1.6ms | Allocations: 13982)
+
+
+Started GET "/" for ::1 at 2019-10-01 10:46:43 +0900
+Processing by TopController#index as HTML
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? ORDER BY "users"."id" ASC LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  Rendering top/index.html.erb within layouts/application
+  [1m[36mList Load (0.2ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? ORDER BY created_at ASC[0m  [["user_id", 1]]
+  ↳ app/views/top/index.html.erb:3
+  [1m[36mList Load (0.2ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? AND "lists"."created_at" = ? ORDER BY created_at ASC LIMIT ?[0m  [["user_id", 1], ["created_at", "2019-09-30"], ["LIMIT", 1]]
+  ↳ app/views/top/index.html.erb:8
+  [1m[36mList Load (0.2ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? AND "lists"."created_at" = ? ORDER BY created_at ASC LIMIT ?[0m  [["user_id", 1], ["created_at", "2019-09-29"], ["LIMIT", 1]]
+  ↳ app/views/top/index.html.erb:8
+  [1m[36mList Load (0.1ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? AND "lists"."created_at" = ? ORDER BY created_at ASC LIMIT ?[0m  [["user_id", 1], ["created_at", "2019-09-28"], ["LIMIT", 1]]
+  ↳ app/views/top/index.html.erb:8
+  [1m[36mList Load (0.1ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? AND "lists"."created_at" = ? ORDER BY created_at ASC LIMIT ?[0m  [["user_id", 1], ["created_at", "2019-09-27"], ["LIMIT", 1]]
+  ↳ app/views/top/index.html.erb:8
+  [1m[36mList Load (0.1ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? AND "lists"."created_at" = ? ORDER BY created_at ASC LIMIT ?[0m  [["user_id", 1], ["created_at", "2019-09-26"], ["LIMIT", 1]]
+  ↳ app/views/top/index.html.erb:8
+  [1m[36mList Load (0.1ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? AND "lists"."created_at" = ? ORDER BY created_at ASC LIMIT ?[0m  [["user_id", 1], ["created_at", "2019-09-25"], ["LIMIT", 1]]
+  ↳ app/views/top/index.html.erb:8
+  [1m[36mList Load (0.1ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? AND "lists"."created_at" = ? ORDER BY created_at ASC LIMIT ?[0m  [["user_id", 1], ["created_at", "2019-09-24"], ["LIMIT", 1]]
+  ↳ app/views/top/index.html.erb:8
+  [1m[36mCACHE List Load (0.0ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? AND "lists"."created_at" = ? ORDER BY created_at ASC LIMIT ?[0m  [["user_id", 1], ["created_at", "2019-09-30"], ["LIMIT", 1]]
+  ↳ app/views/top/index.html.erb:8
+  [1m[36mCACHE List Load (0.0ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? AND "lists"."created_at" = ? ORDER BY created_at ASC LIMIT ?[0m  [["user_id", 1], ["created_at", "2019-09-29"], ["LIMIT", 1]]
+  ↳ app/views/top/index.html.erb:8
+  [1m[36mCACHE List Load (0.0ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? AND "lists"."created_at" = ? ORDER BY created_at ASC LIMIT ?[0m  [["user_id", 1], ["created_at", "2019-09-28"], ["LIMIT", 1]]
+  ↳ app/views/top/index.html.erb:8
+  [1m[36mCACHE List Load (0.0ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? AND "lists"."created_at" = ? ORDER BY created_at ASC LIMIT ?[0m  [["user_id", 1], ["created_at", "2019-09-27"], ["LIMIT", 1]]
+  ↳ app/views/top/index.html.erb:8
+  [1m[36mCACHE List Load (0.0ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? AND "lists"."created_at" = ? ORDER BY created_at ASC LIMIT ?[0m  [["user_id", 1], ["created_at", "2019-09-26"], ["LIMIT", 1]]
+  ↳ app/views/top/index.html.erb:8
+  [1m[36mCACHE List Load (0.0ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? AND "lists"."created_at" = ? ORDER BY created_at ASC LIMIT ?[0m  [["user_id", 1], ["created_at", "2019-09-25"], ["LIMIT", 1]]
+  ↳ app/views/top/index.html.erb:8
+  [1m[36mCACHE List Load (0.0ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? AND "lists"."created_at" = ? ORDER BY created_at ASC LIMIT ?[0m  [["user_id", 1], ["created_at", "2019-09-24"], ["LIMIT", 1]]
+  ↳ app/views/top/index.html.erb:8
+  Rendered top/index.html.erb within layouts/application (Duration: 14.8ms | Allocations: 10059)
+  Rendered partial/_header.html.erb (Duration: 0.2ms | Allocations: 120)
+Completed 200 OK in 23ms (Views: 18.2ms | ActiveRecord: 1.5ms | Allocations: 13981)
+
+
+Started GET "/" for ::1 at 2019-10-01 10:46:44 +0900
+Processing by TopController#index as HTML
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? ORDER BY "users"."id" ASC LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  Rendering top/index.html.erb within layouts/application
+  [1m[36mList Load (0.3ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? ORDER BY created_at ASC[0m  [["user_id", 1]]
+  ↳ app/views/top/index.html.erb:3
+  [1m[36mList Load (0.2ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? AND "lists"."created_at" = ? ORDER BY created_at ASC LIMIT ?[0m  [["user_id", 1], ["created_at", "2019-09-30"], ["LIMIT", 1]]
+  ↳ app/views/top/index.html.erb:8
+  [1m[36mList Load (0.2ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? AND "lists"."created_at" = ? ORDER BY created_at ASC LIMIT ?[0m  [["user_id", 1], ["created_at", "2019-09-29"], ["LIMIT", 1]]
+  ↳ app/views/top/index.html.erb:8
+  [1m[36mList Load (0.2ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? AND "lists"."created_at" = ? ORDER BY created_at ASC LIMIT ?[0m  [["user_id", 1], ["created_at", "2019-09-28"], ["LIMIT", 1]]
+  ↳ app/views/top/index.html.erb:8
+  [1m[36mList Load (0.1ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? AND "lists"."created_at" = ? ORDER BY created_at ASC LIMIT ?[0m  [["user_id", 1], ["created_at", "2019-09-27"], ["LIMIT", 1]]
+  ↳ app/views/top/index.html.erb:8
+  [1m[36mList Load (0.2ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? AND "lists"."created_at" = ? ORDER BY created_at ASC LIMIT ?[0m  [["user_id", 1], ["created_at", "2019-09-26"], ["LIMIT", 1]]
+  ↳ app/views/top/index.html.erb:8
+  [1m[36mList Load (0.2ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? AND "lists"."created_at" = ? ORDER BY created_at ASC LIMIT ?[0m  [["user_id", 1], ["created_at", "2019-09-25"], ["LIMIT", 1]]
+  ↳ app/views/top/index.html.erb:8
+  [1m[36mList Load (0.2ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? AND "lists"."created_at" = ? ORDER BY created_at ASC LIMIT ?[0m  [["user_id", 1], ["created_at", "2019-09-24"], ["LIMIT", 1]]
+  ↳ app/views/top/index.html.erb:8
+  [1m[36mCACHE List Load (0.0ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? AND "lists"."created_at" = ? ORDER BY created_at ASC LIMIT ?[0m  [["user_id", 1], ["created_at", "2019-09-30"], ["LIMIT", 1]]
+  ↳ app/views/top/index.html.erb:8
+  [1m[36mCACHE List Load (0.0ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? AND "lists"."created_at" = ? ORDER BY created_at ASC LIMIT ?[0m  [["user_id", 1], ["created_at", "2019-09-29"], ["LIMIT", 1]]
+  ↳ app/views/top/index.html.erb:8
+  [1m[36mCACHE List Load (0.0ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? AND "lists"."created_at" = ? ORDER BY created_at ASC LIMIT ?[0m  [["user_id", 1], ["created_at", "2019-09-28"], ["LIMIT", 1]]
+  ↳ app/views/top/index.html.erb:8
+  [1m[36mCACHE List Load (0.0ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? AND "lists"."created_at" = ? ORDER BY created_at ASC LIMIT ?[0m  [["user_id", 1], ["created_at", "2019-09-27"], ["LIMIT", 1]]
+  ↳ app/views/top/index.html.erb:8
+  [1m[36mCACHE List Load (0.0ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? AND "lists"."created_at" = ? ORDER BY created_at ASC LIMIT ?[0m  [["user_id", 1], ["created_at", "2019-09-26"], ["LIMIT", 1]]
+  ↳ app/views/top/index.html.erb:8
+  [1m[36mCACHE List Load (0.0ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? AND "lists"."created_at" = ? ORDER BY created_at ASC LIMIT ?[0m  [["user_id", 1], ["created_at", "2019-09-25"], ["LIMIT", 1]]
+  ↳ app/views/top/index.html.erb:8
+  [1m[36mCACHE List Load (0.0ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? AND "lists"."created_at" = ? ORDER BY created_at ASC LIMIT ?[0m  [["user_id", 1], ["created_at", "2019-09-24"], ["LIMIT", 1]]
+  ↳ app/views/top/index.html.erb:8
+  Rendered top/index.html.erb within layouts/application (Duration: 15.3ms | Allocations: 10059)
+  Rendered partial/_header.html.erb (Duration: 0.2ms | Allocations: 120)
+Completed 200 OK in 22ms (Views: 18.2ms | ActiveRecord: 1.8ms | Allocations: 13982)
+
+
+Started GET "/" for ::1 at 2019-10-01 10:46:44 +0900
+Processing by TopController#index as HTML
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? ORDER BY "users"."id" ASC LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  Rendering top/index.html.erb within layouts/application
+  [1m[36mList Load (0.2ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? ORDER BY created_at ASC[0m  [["user_id", 1]]
+  ↳ app/views/top/index.html.erb:3
+  [1m[36mList Load (0.2ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? AND "lists"."created_at" = ? ORDER BY created_at ASC LIMIT ?[0m  [["user_id", 1], ["created_at", "2019-09-30"], ["LIMIT", 1]]
+  ↳ app/views/top/index.html.erb:8
+  [1m[36mList Load (0.2ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? AND "lists"."created_at" = ? ORDER BY created_at ASC LIMIT ?[0m  [["user_id", 1], ["created_at", "2019-09-29"], ["LIMIT", 1]]
+  ↳ app/views/top/index.html.erb:8
+  [1m[36mList Load (0.2ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? AND "lists"."created_at" = ? ORDER BY created_at ASC LIMIT ?[0m  [["user_id", 1], ["created_at", "2019-09-28"], ["LIMIT", 1]]
+  ↳ app/views/top/index.html.erb:8
+  [1m[36mList Load (0.1ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? AND "lists"."created_at" = ? ORDER BY created_at ASC LIMIT ?[0m  [["user_id", 1], ["created_at", "2019-09-27"], ["LIMIT", 1]]
+  ↳ app/views/top/index.html.erb:8
+  [1m[36mList Load (0.1ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? AND "lists"."created_at" = ? ORDER BY created_at ASC LIMIT ?[0m  [["user_id", 1], ["created_at", "2019-09-26"], ["LIMIT", 1]]
+  ↳ app/views/top/index.html.erb:8
+  [1m[36mList Load (0.1ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? AND "lists"."created_at" = ? ORDER BY created_at ASC LIMIT ?[0m  [["user_id", 1], ["created_at", "2019-09-25"], ["LIMIT", 1]]
+  ↳ app/views/top/index.html.erb:8
+  [1m[36mList Load (0.1ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? AND "lists"."created_at" = ? ORDER BY created_at ASC LIMIT ?[0m  [["user_id", 1], ["created_at", "2019-09-24"], ["LIMIT", 1]]
+  ↳ app/views/top/index.html.erb:8
+  [1m[36mCACHE List Load (0.0ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? AND "lists"."created_at" = ? ORDER BY created_at ASC LIMIT ?[0m  [["user_id", 1], ["created_at", "2019-09-30"], ["LIMIT", 1]]
+  ↳ app/views/top/index.html.erb:8
+  [1m[36mCACHE List Load (0.0ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? AND "lists"."created_at" = ? ORDER BY created_at ASC LIMIT ?[0m  [["user_id", 1], ["created_at", "2019-09-29"], ["LIMIT", 1]]
+  ↳ app/views/top/index.html.erb:8
+  [1m[36mCACHE List Load (0.0ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? AND "lists"."created_at" = ? ORDER BY created_at ASC LIMIT ?[0m  [["user_id", 1], ["created_at", "2019-09-28"], ["LIMIT", 1]]
+  ↳ app/views/top/index.html.erb:8
+  [1m[36mCACHE List Load (0.0ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? AND "lists"."created_at" = ? ORDER BY created_at ASC LIMIT ?[0m  [["user_id", 1], ["created_at", "2019-09-27"], ["LIMIT", 1]]
+  ↳ app/views/top/index.html.erb:8
+  [1m[36mCACHE List Load (0.0ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? AND "lists"."created_at" = ? ORDER BY created_at ASC LIMIT ?[0m  [["user_id", 1], ["created_at", "2019-09-26"], ["LIMIT", 1]]
+  ↳ app/views/top/index.html.erb:8
+  [1m[36mCACHE List Load (0.0ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? AND "lists"."created_at" = ? ORDER BY created_at ASC LIMIT ?[0m  [["user_id", 1], ["created_at", "2019-09-25"], ["LIMIT", 1]]
+  ↳ app/views/top/index.html.erb:8
+  [1m[36mCACHE List Load (0.0ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? AND "lists"."created_at" = ? ORDER BY created_at ASC LIMIT ?[0m  [["user_id", 1], ["created_at", "2019-09-24"], ["LIMIT", 1]]
+  ↳ app/views/top/index.html.erb:8
+  Rendered top/index.html.erb within layouts/application (Duration: 15.6ms | Allocations: 10060)
+  Rendered partial/_header.html.erb (Duration: 0.2ms | Allocations: 120)
+Completed 200 OK in 22ms (Views: 18.3ms | ActiveRecord: 1.5ms | Allocations: 13981)
+
+
+Started GET "/" for ::1 at 2019-10-01 10:46:45 +0900
+Processing by TopController#index as HTML
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? ORDER BY "users"."id" ASC LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  Rendering top/index.html.erb within layouts/application
+  [1m[36mList Load (0.2ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? ORDER BY created_at ASC[0m  [["user_id", 1]]
+  ↳ app/views/top/index.html.erb:3
+  [1m[36mList Load (0.1ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? AND "lists"."created_at" = ? ORDER BY created_at ASC LIMIT ?[0m  [["user_id", 1], ["created_at", "2019-09-30"], ["LIMIT", 1]]
+  ↳ app/views/top/index.html.erb:8
+  [1m[36mList Load (0.1ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? AND "lists"."created_at" = ? ORDER BY created_at ASC LIMIT ?[0m  [["user_id", 1], ["created_at", "2019-09-29"], ["LIMIT", 1]]
+  ↳ app/views/top/index.html.erb:8
+  [1m[36mList Load (0.1ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? AND "lists"."created_at" = ? ORDER BY created_at ASC LIMIT ?[0m  [["user_id", 1], ["created_at", "2019-09-28"], ["LIMIT", 1]]
+  ↳ app/views/top/index.html.erb:8
+  [1m[36mList Load (0.1ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? AND "lists"."created_at" = ? ORDER BY created_at ASC LIMIT ?[0m  [["user_id", 1], ["created_at", "2019-09-27"], ["LIMIT", 1]]
+  ↳ app/views/top/index.html.erb:8
+  [1m[36mList Load (0.1ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? AND "lists"."created_at" = ? ORDER BY created_at ASC LIMIT ?[0m  [["user_id", 1], ["created_at", "2019-09-26"], ["LIMIT", 1]]
+  ↳ app/views/top/index.html.erb:8
+  [1m[36mList Load (0.1ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? AND "lists"."created_at" = ? ORDER BY created_at ASC LIMIT ?[0m  [["user_id", 1], ["created_at", "2019-09-25"], ["LIMIT", 1]]
+  ↳ app/views/top/index.html.erb:8
+  [1m[36mList Load (0.1ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? AND "lists"."created_at" = ? ORDER BY created_at ASC LIMIT ?[0m  [["user_id", 1], ["created_at", "2019-09-24"], ["LIMIT", 1]]
+  ↳ app/views/top/index.html.erb:8
+  [1m[36mCACHE List Load (0.0ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? AND "lists"."created_at" = ? ORDER BY created_at ASC LIMIT ?[0m  [["user_id", 1], ["created_at", "2019-09-30"], ["LIMIT", 1]]
+  ↳ app/views/top/index.html.erb:8
+  [1m[36mCACHE List Load (0.0ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? AND "lists"."created_at" = ? ORDER BY created_at ASC LIMIT ?[0m  [["user_id", 1], ["created_at", "2019-09-29"], ["LIMIT", 1]]
+  ↳ app/views/top/index.html.erb:8
+  [1m[36mCACHE List Load (0.0ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? AND "lists"."created_at" = ? ORDER BY created_at ASC LIMIT ?[0m  [["user_id", 1], ["created_at", "2019-09-28"], ["LIMIT", 1]]
+  ↳ app/views/top/index.html.erb:8
+  [1m[36mCACHE List Load (0.0ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? AND "lists"."created_at" = ? ORDER BY created_at ASC LIMIT ?[0m  [["user_id", 1], ["created_at", "2019-09-27"], ["LIMIT", 1]]
+  ↳ app/views/top/index.html.erb:8
+  [1m[36mCACHE List Load (0.0ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? AND "lists"."created_at" = ? ORDER BY created_at ASC LIMIT ?[0m  [["user_id", 1], ["created_at", "2019-09-26"], ["LIMIT", 1]]
+  ↳ app/views/top/index.html.erb:8
+  [1m[36mCACHE List Load (0.0ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? AND "lists"."created_at" = ? ORDER BY created_at ASC LIMIT ?[0m  [["user_id", 1], ["created_at", "2019-09-25"], ["LIMIT", 1]]
+  ↳ app/views/top/index.html.erb:8
+  [1m[36mCACHE List Load (0.0ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? AND "lists"."created_at" = ? ORDER BY created_at ASC LIMIT ?[0m  [["user_id", 1], ["created_at", "2019-09-24"], ["LIMIT", 1]]
+  ↳ app/views/top/index.html.erb:8
+  Rendered top/index.html.erb within layouts/application (Duration: 11.4ms | Allocations: 10059)
+  Rendered partial/_header.html.erb (Duration: 0.2ms | Allocations: 120)
+Completed 200 OK in 18ms (Views: 14.4ms | ActiveRecord: 1.2ms | Allocations: 13985)
+
+
+Started GET "/" for ::1 at 2019-10-01 10:46:45 +0900
+Processing by TopController#index as HTML
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? ORDER BY "users"."id" ASC LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  Rendering top/index.html.erb within layouts/application
+  [1m[36mList Load (0.2ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? ORDER BY created_at ASC[0m  [["user_id", 1]]
+  ↳ app/views/top/index.html.erb:3
+  [1m[36mList Load (0.2ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? AND "lists"."created_at" = ? ORDER BY created_at ASC LIMIT ?[0m  [["user_id", 1], ["created_at", "2019-09-30"], ["LIMIT", 1]]
+  ↳ app/views/top/index.html.erb:8
+  [1m[36mList Load (0.2ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? AND "lists"."created_at" = ? ORDER BY created_at ASC LIMIT ?[0m  [["user_id", 1], ["created_at", "2019-09-29"], ["LIMIT", 1]]
+  ↳ app/views/top/index.html.erb:8
+  [1m[36mList Load (0.2ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? AND "lists"."created_at" = ? ORDER BY created_at ASC LIMIT ?[0m  [["user_id", 1], ["created_at", "2019-09-28"], ["LIMIT", 1]]
+  ↳ app/views/top/index.html.erb:8
+  [1m[36mList Load (0.2ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? AND "lists"."created_at" = ? ORDER BY created_at ASC LIMIT ?[0m  [["user_id", 1], ["created_at", "2019-09-27"], ["LIMIT", 1]]
+  ↳ app/views/top/index.html.erb:8
+  [1m[36mList Load (0.3ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? AND "lists"."created_at" = ? ORDER BY created_at ASC LIMIT ?[0m  [["user_id", 1], ["created_at", "2019-09-26"], ["LIMIT", 1]]
+  ↳ app/views/top/index.html.erb:8
+  [1m[36mList Load (0.2ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? AND "lists"."created_at" = ? ORDER BY created_at ASC LIMIT ?[0m  [["user_id", 1], ["created_at", "2019-09-25"], ["LIMIT", 1]]
+  ↳ app/views/top/index.html.erb:8
+  [1m[36mList Load (0.1ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? AND "lists"."created_at" = ? ORDER BY created_at ASC LIMIT ?[0m  [["user_id", 1], ["created_at", "2019-09-24"], ["LIMIT", 1]]
+  ↳ app/views/top/index.html.erb:8
+  [1m[36mCACHE List Load (0.0ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? AND "lists"."created_at" = ? ORDER BY created_at ASC LIMIT ?[0m  [["user_id", 1], ["created_at", "2019-09-30"], ["LIMIT", 1]]
+  ↳ app/views/top/index.html.erb:8
+  [1m[36mCACHE List Load (0.0ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? AND "lists"."created_at" = ? ORDER BY created_at ASC LIMIT ?[0m  [["user_id", 1], ["created_at", "2019-09-29"], ["LIMIT", 1]]
+  ↳ app/views/top/index.html.erb:8
+  [1m[36mCACHE List Load (0.0ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? AND "lists"."created_at" = ? ORDER BY created_at ASC LIMIT ?[0m  [["user_id", 1], ["created_at", "2019-09-28"], ["LIMIT", 1]]
+  ↳ app/views/top/index.html.erb:8
+  [1m[36mCACHE List Load (0.0ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? AND "lists"."created_at" = ? ORDER BY created_at ASC LIMIT ?[0m  [["user_id", 1], ["created_at", "2019-09-27"], ["LIMIT", 1]]
+  ↳ app/views/top/index.html.erb:8
+  [1m[36mCACHE List Load (0.0ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? AND "lists"."created_at" = ? ORDER BY created_at ASC LIMIT ?[0m  [["user_id", 1], ["created_at", "2019-09-26"], ["LIMIT", 1]]
+  ↳ app/views/top/index.html.erb:8
+  [1m[36mCACHE List Load (0.0ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? AND "lists"."created_at" = ? ORDER BY created_at ASC LIMIT ?[0m  [["user_id", 1], ["created_at", "2019-09-25"], ["LIMIT", 1]]
+  ↳ app/views/top/index.html.erb:8
+  [1m[36mCACHE List Load (0.0ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? AND "lists"."created_at" = ? ORDER BY created_at ASC LIMIT ?[0m  [["user_id", 1], ["created_at", "2019-09-24"], ["LIMIT", 1]]
+  ↳ app/views/top/index.html.erb:8
+  Rendered top/index.html.erb within layouts/application (Duration: 14.3ms | Allocations: 10059)
+  Rendered partial/_header.html.erb (Duration: 0.2ms | Allocations: 120)
+Completed 200 OK in 21ms (Views: 17.0ms | ActiveRecord: 1.7ms | Allocations: 13983)
+
+
+Started GET "/" for ::1 at 2019-10-01 10:47:01 +0900
+Processing by TopController#index as HTML
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? ORDER BY "users"."id" ASC LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  Rendering top/index.html.erb within layouts/application
+  [1m[36mList Load (0.2ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? ORDER BY created_at ASC[0m  [["user_id", 1]]
+  ↳ app/views/top/index.html.erb:3
+  [1m[36mCard Load (0.1ms)[0m  [1m[34mSELECT "cards".* FROM "cards" WHERE "cards"."list_id" = ?[0m  [["list_id", 1]]
+  ↳ app/views/top/index.html.erb:21
+  [1m[36mLog Load (0.1ms)[0m  [1m[34mSELECT "logs".* FROM "logs" WHERE "logs"."card_id" = ?[0m  [["card_id", 1]]
+  ↳ app/views/top/index.html.erb:42
+  [1m[36mLog Load (0.1ms)[0m  [1m[34mSELECT "logs".* FROM "logs" WHERE "logs"."card_id" = ?[0m  [["card_id", 2]]
+  ↳ app/views/top/index.html.erb:42
+  [1m[36mCard Load (0.1ms)[0m  [1m[34mSELECT "cards".* FROM "cards" WHERE "cards"."list_id" = ?[0m  [["list_id", 2]]
+  ↳ app/views/top/index.html.erb:21
+  Rendered top/index.html.erb within layouts/application (Duration: 15.7ms | Allocations: 11213)
+  Rendered partial/_header.html.erb (Duration: 0.7ms | Allocations: 279)
+Completed 200 OK in 27ms (Views: 23.8ms | ActiveRecord: 0.8ms | Allocations: 16603)
+
+
+Started GET "/" for ::1 at 2019-10-01 10:48:59 +0900
+Processing by TopController#index as HTML
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? ORDER BY "users"."id" ASC LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  Rendering top/index.html.erb within layouts/application
+  [1m[36mList Load (0.3ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? ORDER BY created_at ASC[0m  [["user_id", 1]]
+  ↳ app/views/top/index.html.erb:3
+  [1m[36mList Load (0.3ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? AND "lists"."created_at" = ? ORDER BY created_at ASC LIMIT ?[0m  [["user_id", 1], ["created_at", "2019-09-30"], ["LIMIT", 1]]
+  ↳ app/views/top/index.html.erb:8
+  [1m[36mList Load (0.3ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? AND "lists"."created_at" = ? ORDER BY created_at ASC LIMIT ?[0m  [["user_id", 1], ["created_at", "2019-09-29"], ["LIMIT", 1]]
+  ↳ app/views/top/index.html.erb:8
+  [1m[36mList Load (0.2ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? AND "lists"."created_at" = ? ORDER BY created_at ASC LIMIT ?[0m  [["user_id", 1], ["created_at", "2019-09-28"], ["LIMIT", 1]]
+  ↳ app/views/top/index.html.erb:8
+  [1m[36mList Load (0.2ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? AND "lists"."created_at" = ? ORDER BY created_at ASC LIMIT ?[0m  [["user_id", 1], ["created_at", "2019-09-27"], ["LIMIT", 1]]
+  ↳ app/views/top/index.html.erb:8
+  [1m[36mList Load (0.2ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? AND "lists"."created_at" = ? ORDER BY created_at ASC LIMIT ?[0m  [["user_id", 1], ["created_at", "2019-09-26"], ["LIMIT", 1]]
+  ↳ app/views/top/index.html.erb:8
+  [1m[36mList Load (0.3ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? AND "lists"."created_at" = ? ORDER BY created_at ASC LIMIT ?[0m  [["user_id", 1], ["created_at", "2019-09-25"], ["LIMIT", 1]]
+  ↳ app/views/top/index.html.erb:8
+  [1m[36mList Load (0.3ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? AND "lists"."created_at" = ? ORDER BY created_at ASC LIMIT ?[0m  [["user_id", 1], ["created_at", "2019-09-24"], ["LIMIT", 1]]
+  ↳ app/views/top/index.html.erb:8
+  [1m[36mCACHE List Load (0.0ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? AND "lists"."created_at" = ? ORDER BY created_at ASC LIMIT ?[0m  [["user_id", 1], ["created_at", "2019-09-30"], ["LIMIT", 1]]
+  ↳ app/views/top/index.html.erb:8
+  [1m[36mCACHE List Load (0.0ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? AND "lists"."created_at" = ? ORDER BY created_at ASC LIMIT ?[0m  [["user_id", 1], ["created_at", "2019-09-29"], ["LIMIT", 1]]
+  ↳ app/views/top/index.html.erb:8
+  [1m[36mCACHE List Load (0.0ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? AND "lists"."created_at" = ? ORDER BY created_at ASC LIMIT ?[0m  [["user_id", 1], ["created_at", "2019-09-28"], ["LIMIT", 1]]
+  ↳ app/views/top/index.html.erb:8
+  [1m[36mCACHE List Load (0.0ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? AND "lists"."created_at" = ? ORDER BY created_at ASC LIMIT ?[0m  [["user_id", 1], ["created_at", "2019-09-27"], ["LIMIT", 1]]
+  ↳ app/views/top/index.html.erb:8
+  [1m[36mCACHE List Load (0.0ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? AND "lists"."created_at" = ? ORDER BY created_at ASC LIMIT ?[0m  [["user_id", 1], ["created_at", "2019-09-26"], ["LIMIT", 1]]
+  ↳ app/views/top/index.html.erb:8
+  [1m[36mCACHE List Load (0.0ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? AND "lists"."created_at" = ? ORDER BY created_at ASC LIMIT ?[0m  [["user_id", 1], ["created_at", "2019-09-25"], ["LIMIT", 1]]
+  ↳ app/views/top/index.html.erb:8
+  [1m[36mCACHE List Load (0.0ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? AND "lists"."created_at" = ? ORDER BY created_at ASC LIMIT ?[0m  [["user_id", 1], ["created_at", "2019-09-24"], ["LIMIT", 1]]
+  ↳ app/views/top/index.html.erb:8
+  Rendered top/index.html.erb within layouts/application (Duration: 18.7ms | Allocations: 10861)
+  Rendered partial/_header.html.erb (Duration: 0.6ms | Allocations: 301)
+Completed 200 OK in 30ms (Views: 23.9ms | ActiveRecord: 2.2ms | Allocations: 16261)
+
+
+Started GET "/" for ::1 at 2019-10-01 10:49:28 +0900
+Processing by TopController#index as HTML
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? ORDER BY "users"."id" ASC LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  Rendering top/index.html.erb within layouts/application
+  [1m[36mList Load (0.3ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? ORDER BY created_at ASC[0m  [["user_id", 1]]
+  ↳ app/views/top/index.html.erb:3
+  [1m[36mCard Load (0.1ms)[0m  [1m[34mSELECT "cards".* FROM "cards" WHERE "cards"."list_id" = ?[0m  [["list_id", 1]]
+  ↳ app/views/top/index.html.erb:21
+  [1m[36mLog Load (0.1ms)[0m  [1m[34mSELECT "logs".* FROM "logs" WHERE "logs"."card_id" = ?[0m  [["card_id", 1]]
+  ↳ app/views/top/index.html.erb:42
+  [1m[36mLog Load (0.1ms)[0m  [1m[34mSELECT "logs".* FROM "logs" WHERE "logs"."card_id" = ?[0m  [["card_id", 2]]
+  ↳ app/views/top/index.html.erb:42
+  [1m[36mCard Load (0.1ms)[0m  [1m[34mSELECT "cards".* FROM "cards" WHERE "cards"."list_id" = ?[0m  [["list_id", 2]]
+  ↳ app/views/top/index.html.erb:21
+  Rendered top/index.html.erb within layouts/application (Duration: 16.9ms | Allocations: 11208)
+  Rendered partial/_header.html.erb (Duration: 0.4ms | Allocations: 279)
+Completed 200 OK in 27ms (Views: 22.6ms | ActiveRecord: 0.9ms | Allocations: 16594)
+
+
+Started GET "/" for ::1 at 2019-10-01 10:50:32 +0900
+Processing by TopController#index as HTML
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? ORDER BY "users"."id" ASC LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  Rendering top/index.html.erb within layouts/application
+  [1m[36mList Load (0.2ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? ORDER BY created_at ASC[0m  [["user_id", 1]]
+  ↳ app/views/top/index.html.erb:3
+  [1m[36mCard Load (0.1ms)[0m  [1m[34mSELECT "cards".* FROM "cards" WHERE "cards"."list_id" = ?[0m  [["list_id", 1]]
+  ↳ app/views/top/index.html.erb:21
+  [1m[36mLog Load (0.2ms)[0m  [1m[34mSELECT "logs".* FROM "logs" WHERE "logs"."card_id" = ?[0m  [["card_id", 1]]
+  ↳ app/views/top/index.html.erb:42
+  [1m[36mLog Load (0.2ms)[0m  [1m[34mSELECT "logs".* FROM "logs" WHERE "logs"."card_id" = ?[0m  [["card_id", 2]]
+  ↳ app/views/top/index.html.erb:42
+  [1m[36mCard Load (0.1ms)[0m  [1m[34mSELECT "cards".* FROM "cards" WHERE "cards"."list_id" = ?[0m  [["list_id", 2]]
+  ↳ app/views/top/index.html.erb:21
+  Rendered top/index.html.erb within layouts/application (Duration: 16.1ms | Allocations: 10648)
+  Rendered partial/_header.html.erb (Duration: 0.5ms | Allocations: 279)
+Completed 200 OK in 27ms (Views: 22.8ms | ActiveRecord: 1.0ms | Allocations: 16040)
+
+
+Started GET "/" for ::1 at 2019-10-01 10:50:34 +0900
+Processing by TopController#index as HTML
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? ORDER BY "users"."id" ASC LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  Rendering top/index.html.erb within layouts/application
+  [1m[36mList Load (0.2ms)[0m  [1m[34mSELECT "lists".* FROM "lists" WHERE "lists"."user_id" = ? ORDER BY created_at ASC[0m  [["user_id", 1]]
+  ↳ app/views/top/index.html.erb:3
+  [1m[36mCard Load (0.2ms)[0m  [1m[34mSELECT "cards".* FROM "cards" WHERE "cards"."list_id" = ?[0m  [["list_id", 1]]
+  ↳ app/views/top/index.html.erb:21
+  [1m[36mLog Load (0.1ms)[0m  [1m[34mSELECT "logs".* FROM "logs" WHERE "logs"."card_id" = ?[0m  [["card_id", 1]]
+  ↳ app/views/top/index.html.erb:42
+  [1m[36mLog Load (0.1ms)[0m  [1m[34mSELECT "logs".* FROM "logs" WHERE "logs"."card_id" = ?[0m  [["card_id", 2]]
+  ↳ app/views/top/index.html.erb:42
+  [1m[36mCard Load (0.1ms)[0m  [1m[34mSELECT "cards".* FROM "cards" WHERE "cards"."list_id" = ?[0m  [["list_id", 2]]
+  ↳ app/views/top/index.html.erb:21
+  Rendered top/index.html.erb within layouts/application (Duration: 13.6ms | Allocations: 9845)
+  Rendered partial/_header.html.erb (Duration: 0.1ms | Allocations: 98)
+Completed 200 OK in 21ms (Views: 17.7ms | ActiveRecord: 0.9ms | Allocations: 13743)
+
+
